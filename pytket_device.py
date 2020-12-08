@@ -1,8 +1,9 @@
 #creating device class to build Pennylane plugin
 
 import pennylane as qml
-
-from ._version import __version__
+from pennylane import QubitDevice, DeviceError
+from pytket.circuit import OpType
+from _version import __version__
 
 PYTKET_OPERATION_MAP = {
     qml.Hadamard : OpType.H,
@@ -32,9 +33,21 @@ class pytketDevice(QubitDevice):
     short_name = 'pytket.mydevice'
     pennylane_requires = '>=0.13.0'
     version = '0.13.0'
-    plugin_version = __version__
+    #plugin_version = __version__
     author = 'KN'
 
     _operation_map = {**PYTKET_OPERATION_MAP}
     operations = set(_operation_map.keys())
     observables = {"PauliX", "PauliY", "PauliZ"}
+
+    #pennylane constructs quantum circuits as functions like the 
+    #example below my_quantum_function. Can we access methods of circuits
+    #through tket device?
+    
+dev = qml.device("pytket.mydevice")
+@qml.qnode(dev)
+def my_quantum_function(x, y):
+    qml.RZ(x, wires=0)
+    qml.CNOT(wires=[0,1])
+    qml.RY(y, wires=1)
+    return qml.expval(qml.PauliZ(1))
