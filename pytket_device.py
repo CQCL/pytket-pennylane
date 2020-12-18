@@ -2,7 +2,7 @@
 import numpy as np
 import pennylane as qml
 from pennylane import QubitDevice, DeviceError
-#from pytket.backends.qulacs import QulacsBackend
+from pytket.backends.qulacs import QulacsBackend
 from pytket.circuit import OpType
 #from pytket.circuit import add_q_register, add_c_register
 from pytket import Circuit
@@ -54,16 +54,16 @@ class pytketDevice(QubitDevice):
 
     #qml->qiskit->tket
 
-    def __init__(self, wires, shots, backend):#=QulacsBackend):
+    def __init__(self, wires, shots, backend=QulacsBackend()):
         super().__init__(wires=wires, shots=shots)
-        self.backend_name = backend
+        self.tket_backend = backend
 
     def reset(self):
         # Reset only internal data, not the options that are determined on
         # device creation
-        self._reg = Circuit.add_q_register("q", self.num_wires)
-        self._creg = Circuit.add_c_register("c", self.num_wires)
-        self._circuit = Circuit(self._reg, self._creg, name="temp")
+        self._circuit = Circuit(name="temp")
+        self._reg = self._circuit.add_q_register("q", self.num_wires)
+        self._creg = self._circuit.add_c_register("c", self.num_wires)
         self._state = None  # statevector of a simulator backend
 
     def apply(self, operations, **kwargs):
@@ -111,16 +111,16 @@ class pytketDevice(QubitDevice):
 
             ## will pytket.utils.Graph.as_nx() work here?
             ## pytket.circuit.Circuit "Encapsulates a quantum circuit using a DAG representation."?
-            #dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))
-            #gate = mapped_operation(*par)
+            dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))
+            gate = mapped_operation(*par)
 
             if operation.endswith(".inv"):
                 gate = gate.inverse()
 
             ## need to apply inverse gate to dag circuit
-            #dag.apply_operation_back(gate, qargs=qregs)
-            #circuit = dag_to_circuit(dag)
-            #circuits.append(circuit)
+            dag.apply_operation_back(gate, qargs=qregs)
+            circuit = dag_to_circuit(dag)
+            circuits.append(circuit)
 
         return circuits
 
@@ -148,4 +148,3 @@ def my_quantum_function(x, y):
     qml.CNOT(wires=[0,1])
     qml.RY(y, wires=1)
     return qml.expval(qml.PauliZ(1))
-
