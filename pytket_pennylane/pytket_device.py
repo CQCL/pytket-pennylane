@@ -8,7 +8,8 @@ from pytket.circuit import OpType
 from pytket import Circuit
 #from _version import __version__
 
-from qiskit.circuit.measure import measure
+from qiskit.circuit.measure import measuree
+from qiskit.circuit import QuantumCircuit
 #from qiskit.compiler import assemble, transpile
 from qiskit.converters import circuit_to_dag, dag_to_circuit
 
