@@ -6,9 +6,9 @@ from pytket.backends.qulacs import QulacsBackend
 from pytket.circuit import OpType
 #from pytket.circuit import add_q_register, add_c_register
 from pytket import Circuit
-#from _version import __version__
+from ._version import __version__
 
-from qiskit.circuit.measure import measuree
+from qiskit.circuit.measure import measure
 from qiskit.circuit import QuantumCircuit
 #from qiskit.compiler import assemble, transpile
 from qiskit.converters import circuit_to_dag, dag_to_circuit
@@ -44,8 +44,8 @@ class pytketDevice(QubitDevice):
     name = 'pytket-pennylane plugin'
     short_name = 'pytket.mydevice'
     pennylane_requires = '>=0.13.0'
-    #version = '0.13.0'
-    #plugin_version = __version__
+    version = '0.1.0'
+    plugin_version = __version__
     author = 'KN'
 
     _operation_map = {**PYTKET_OPERATION_MAP, **PYTKET_OPERATION_INVERSES_MAP}
@@ -55,7 +55,7 @@ class pytketDevice(QubitDevice):
 
     #qml->qiskit->tket
 
-    def __init__(self, wires, shots, backend=QulacsBackend()):
+    def __init__(self, wires, shots=1024, backend=QulacsBackend()):
         super().__init__(wires=wires, shots=shots)
         self.tket_backend = backend
 
@@ -142,10 +142,10 @@ class pytketDevice(QubitDevice):
         prob = self.marginal_prob(np.abs(self._state) ** 2, wires)
         return prob
 
-dev = qml.device(short_name = 'pytket.mydevice', wires=2, name = 'pytket-pennylane plugin')
-@qml.qnode(dev)
-def my_quantum_function(x, y):
-    qml.RZ(x, wires=0)
-    qml.CNOT(wires=[0,1])
-    qml.RY(y, wires=1)
-    return qml.expval(qml.PauliZ(1))
+# dev = qml.device(short_name = 'pytket.mydevice', wires=2, name = 'pytket-pennylane plugin')
+# @qml.qnode(dev)
+# def my_quantum_function(x, y):
+#     qml.RZ(x, wires=0)
+#     qml.CNOT(wires=[0,1])
+#     qml.RY(y, wires=1)
+#     return qml.expval(qml.PauliZ(1))
