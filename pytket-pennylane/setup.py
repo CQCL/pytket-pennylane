@@ -15,22 +15,23 @@
 #!/usr/bin/env python3
 from setuptools import setup
 
-with open("pytket-pennylane/_version.py") as f:
+with open("pytket_pennylane/_version.py") as f:
     version = f.readlines()[-1].split()[-1].strip("\"'")
 
 requirements = [
     "numpy"
 ]
 
+# TODO update info
 info = {
     'name': 'pytket-pennylane',
     'version': version,
     'maintainer': 'Xanadu',
     'maintainer_email': 'software@xanadu.ai',
-    'url': 'https://github.com/XanaduAI/pennylane-qiskit',
+    'url': 'https://github.com/kimaranaicker/pytket-pennylane',
     'license': 'Apache License 2.0',
     'packages': [
-        'pennylane_qiskit'
+        'pytket_pennylane'
     ]
 
 }
@@ -47,7 +48,7 @@ classifiers = [
 ]
 
 devices_list = [
-        'pytket.mydevice = pytket-pennylane.pytket_device:pytketDevice'
+        'pytket.mydevice=pytket_pennylane:pytketDevice',
     ]
 
 setup(classifiers=classifiers, **(info), entry_points={'pennylane.plugins': devices_list})

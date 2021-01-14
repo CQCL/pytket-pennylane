@@ -1,0 +1,1578 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2577
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww15380\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 ============================= test session starts ==============================\
+platform darwin -- Python 3.7.9, pytest-6.2.1, py-1.10.0, pluggy-0.13.1\
+rootdir: /opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests, configfile: pytest.ini\
+plugins: flaky-3.7.0, mock-3.5.0\
+collected 163 items                                                            \
+\
+../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_gates.py . [  0%]\
+x..x.xxx.x.xxx..xxxx.xxx.xsssssssssssssssssssssssssssxxxxxxxxxxxxxxxxxxx [ 34%]\
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx [ 39%]\
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx [ 43%]\
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx [ 47%]\
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx [ 52%]\
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxsssssssssssssssssssssssssssss [ 72%]\
+s                                                                                                                         [ 73%]\
+../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py . [ 73%]\
+..FFFxxxxxxxxxxxFFFxxxxxxxxxxssFxxxxxxxxxxsFssFxxxxxxxxxxsFsFxxxxxxxxxxs [ 90%]\
+                                                                                                                          [ 90%]\
+../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_properties.py . [ 90%]\
+...FssFssF                                                                                                                [ 96%]\
+../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_wires.py F [ 97%]\
+FFFF                                                                                                                      [100%]\
+\
+=========================================================== FAILURES ============================================================\
+_________________ TestSupportedObservables.test_supported_observables_can_be_implemented[device_kwargs0-PauliX] _________________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d64555d0>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d6455c50>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_measurements.TestSupportedObservables object at 0x7fa2d6f2e690>\
+device_kwargs = \{'name': 'pytket.mydevice', 'wires': 3\}, observable = 'PauliX'\
+\
+    @pytest.mark.parametrize("observable", all_obs)\
+    def test_supported_observables_can_be_implemented(self, device_kwargs, observable):\
+        """Test that the device can implement all its supported observables."""\
+        device_kwargs["wires"] = 3\
+        dev = qml.device(**device_kwargs)\
+    \
+        assert hasattr(dev, "observables")\
+        if observable in dev.observables:\
+    \
+            @qml.qnode(dev)\
+            def circuit():\
+                return qml.expval(obs[observable])\
+    \
+>           assert isinstance(circuit(), (float, np.ndarray))\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py:60: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:76: in apply\
+    rotation_circuits = self.apply_operations(rotations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d64555d0>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+_________________ TestSupportedObservables.test_supported_observables_can_be_implemented[device_kwargs0-PauliY] _________________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d6f3fcd0>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d6f3f9d0>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_measurements.TestSupportedObservables object at 0x7fa2d6f5bb50>\
+device_kwargs = \{'name': 'pytket.mydevice', 'wires': 3\}, observable = 'PauliY'\
+\
+    @pytest.mark.parametrize("observable", all_obs)\
+    def test_supported_observables_can_be_implemented(self, device_kwargs, observable):\
+        """Test that the device can implement all its supported observables."""\
+        device_kwargs["wires"] = 3\
+        dev = qml.device(**device_kwargs)\
+    \
+        assert hasattr(dev, "observables")\
+        if observable in dev.observables:\
+    \
+            @qml.qnode(dev)\
+            def circuit():\
+                return qml.expval(obs[observable])\
+    \
+>           assert isinstance(circuit(), (float, np.ndarray))\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py:60: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:76: in apply\
+    rotation_circuits = self.apply_operations(rotations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d6f3fcd0>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+_________________ TestSupportedObservables.test_supported_observables_can_be_implemented[device_kwargs0-PauliZ] _________________\
+\
+self = <pennylane.devices.tests.test_measurements.TestSupportedObservables object at 0x7fa2d71ca690>\
+device_kwargs = \{'name': 'pytket.mydevice', 'wires': 3\}, observable = 'PauliZ'\
+\
+    @pytest.mark.parametrize("observable", all_obs)\
+    def test_supported_observables_can_be_implemented(self, device_kwargs, observable):\
+        """Test that the device can implement all its supported observables."""\
+        device_kwargs["wires"] = 3\
+        dev = qml.device(**device_kwargs)\
+    \
+        assert hasattr(dev, "observables")\
+        if observable in dev.observables:\
+    \
+            @qml.qnode(dev)\
+            def circuit():\
+                return qml.expval(obs[observable])\
+    \
+>           assert isinstance(circuit(), (float, np.ndarray))\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py:60: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:197: in execute\
+    results = self.statistics(circuit.observables)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:329: in statistics\
+    results.append(self.expval(obs))\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:654: in expval\
+    return self._dot(eigvals, prob)\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+args = (array([ 1., -1.]), None), kwargs = \{\}, relevant_args = (array([ 1., -1.]), None, None)\
+\
+>   ???\
+E   TypeError: unsupported operand type(s) for *: 'float' and 'NoneType'\
+\
+<__array_function__ internals>:6: TypeError\
+______________________________________ TestExpval.test_pauliz_expectation[device_kwargs0] _______________________________________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d6d9aa10>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d6d9a790>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_measurements.TestExpval object at 0x7fa2d73e5150>\
+device = <function device.<locals>._device at 0x7fa2d719fb90>, tol = <function tol.<locals>._tol at 0x7fa2d719fd40>\
+\
+    def test_pauliz_expectation(self, device, tol):\
+        """Test that PauliZ expectation value is correct"""\
+        n_wires = 2\
+        dev = device(n_wires)\
+    \
+        theta = 0.432\
+        phi = 0.123\
+    \
+        @qml.qnode(dev)\
+        def circuit():\
+            qml.RX(theta, wires=[0])\
+            qml.RX(phi, wires=[1])\
+            qml.CNOT(wires=[0, 1])\
+            return qml.expval(qml.PauliZ(wires=0)), qml.expval(qml.PauliZ(wires=1))\
+    \
+>       res = circuit()\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py:118: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:73: in apply\
+    applied_operations = self.apply_operations(operations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d6d9aa10>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+______________________________________ TestExpval.test_paulix_expectation[device_kwargs0] _______________________________________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d6e46d90>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d6e46410>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_measurements.TestExpval object at 0x7fa2d786e650>\
+device = <function device.<locals>._device at 0x7fa2d70b9dd0>, tol = <function tol.<locals>._tol at 0x7fa2d707f9e0>\
+\
+    def test_paulix_expectation(self, device, tol):\
+        """Test that PauliX expectation value is correct"""\
+        n_wires = 2\
+        dev = device(n_wires)\
+    \
+        theta = 0.432\
+        phi = 0.123\
+    \
+        @qml.qnode(dev)\
+        def circuit():\
+            qml.RY(theta, wires=[0])\
+            qml.RY(phi, wires=[1])\
+            qml.CNOT(wires=[0, 1])\
+            return qml.expval(qml.PauliX(wires=0)), qml.expval(qml.PauliX(wires=1))\
+    \
+>       res = circuit()\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py:138: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:73: in apply\
+    applied_operations = self.apply_operations(operations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d6e46d90>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+______________________________________ TestExpval.test_pauliy_expectation[device_kwargs0] _______________________________________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d76c26d0>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d76c2650>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_measurements.TestExpval object at 0x7fa2d74f1bd0>\
+device = <function device.<locals>._device at 0x7fa2d701d680>, tol = <function tol.<locals>._tol at 0x7fa2d701de60>\
+\
+    def test_pauliy_expectation(self, device, tol):\
+        """Test that PauliY expectation value is correct"""\
+        n_wires = 2\
+        dev = device(n_wires)\
+    \
+        theta = 0.432\
+        phi = 0.123\
+    \
+        @qml.qnode(dev)\
+        def circuit():\
+            qml.RX(theta, wires=[0])\
+            qml.RX(phi, wires=[1])\
+            qml.CNOT(wires=[0, 1])\
+            return qml.expval(qml.PauliY(wires=0)), qml.expval(qml.PauliY(wires=1))\
+    \
+>       res = circuit()\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py:157: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:73: in apply\
+    applied_operations = self.apply_operations(operations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d76c26d0>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+______________________________________ TestTensorExpval.test_paulix_pauliy[device_kwargs0] ______________________________________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d7388810>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d7388210>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_measurements.TestTensorExpval object at 0x7fa2d743a350>\
+device = <function device.<locals>._device at 0x7fa2d73fc440>, tol = <function tol.<locals>._tol at 0x7fa2d73e1320>\
+skip_if = <function skip_if.<locals>._skip_if at 0x7fa2d4b84f80>\
+\
+    def test_paulix_pauliy(self, device, tol, skip_if):\
+        """Test that a tensor product involving PauliX and PauliY works correctly"""\
+        n_wires = 3\
+        dev = device(n_wires)\
+        skip_if(dev, \{"supports_tensor_observables": False\})\
+    \
+        theta = 0.432\
+        phi = 0.123\
+        varphi = -0.543\
+    \
+        @qml.qnode(dev)\
+        def circuit():\
+            qml.RX(theta, wires=[0])\
+            qml.RX(phi, wires=[1])\
+            qml.RX(varphi, wires=[2])\
+            qml.CNOT(wires=[0, 1])\
+            qml.CNOT(wires=[1, 2])\
+            return qml.expval(qml.PauliX(wires=0) @ qml.PauliY(wires=2))\
+    \
+>       res = circuit()\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py:275: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:73: in apply\
+    applied_operations = self.apply_operations(operations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d7388810>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+_________________________________________ TestSample.test_sample_values[device_kwargs0] _________________________________________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d76f8d10>, name = '', global_phase = 0\
+regs = (\{0: q[0]\}, \{0: c[0]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d76f8e90>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_measurements.TestSample object at 0x7fa2d76f8590>\
+device = <function device.<locals>._device at 0x7fa2d70f73b0>, tol = <function tol.<locals>._tol at 0x7fa2d70f79e0>\
+\
+    def test_sample_values(self, device, tol):\
+        """Tests if the samples returned by sample have\
+        the correct values\
+        """\
+        n_wires = 1\
+        dev = device(n_wires)\
+    \
+        @qml.qnode(dev)\
+        def circuit():\
+            qml.RX(1.5708, wires=[0])\
+            return qml.sample(qml.PauliZ(wires=0))\
+    \
+>       res = circuit()\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py:362: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:73: in apply\
+    applied_operations = self.apply_operations(operations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d76f8d10>, name = '', global_phase = 0\
+regs = (\{0: q[0]\}, \{0: c[0]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0]\}, \{0: c[0]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+______________________________________ TestTensorSample.test_paulix_pauliy[device_kwargs0] ______________________________________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d7cb5b50>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d7cb5910>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_measurements.TestTensorSample object at 0x7fa2d7357d50>\
+device = <function device.<locals>._device at 0x7fa2d78cb440>, tol = <function tol.<locals>._tol at 0x7fa2d78cb5f0>\
+skip_if = <function skip_if.<locals>._skip_if at 0x7fa2d4b84f80>\
+\
+    def test_paulix_pauliy(self, device, tol, skip_if):\
+        """Test that a tensor product involving PauliX and PauliY works correctly"""\
+        n_wires = 3\
+        dev = device(n_wires)\
+        skip_if(dev, \{"supports_tensor_observables": False\})\
+    \
+        theta = 0.432\
+        phi = 0.123\
+        varphi = -0.543\
+    \
+        @qml.qnode(dev)\
+        def circuit():\
+            qml.RX(theta, wires=[0])\
+            qml.RX(phi, wires=[1])\
+            qml.RX(varphi, wires=[2])\
+            qml.CNOT(wires=[0, 1])\
+            qml.CNOT(wires=[1, 2])\
+            return qml.sample(qml.PauliX(wires=[0]) @ qml.PauliY(wires=[2]))\
+    \
+>       res = circuit()\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py:470: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:73: in apply\
+    applied_operations = self.apply_operations(operations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d7cb5b50>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+_______________________________________________ TestVar.test_var[device_kwargs0] ________________________________________________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d809d0d0>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d809d590>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_measurements.TestVar object at 0x7fa2d6f62bd0>\
+device = <function device.<locals>._device at 0x7fa2d7119d40>, tol = <function tol.<locals>._tol at 0x7fa2d7119e60>\
+\
+    def test_var(self, device, tol):\
+        """Tests if the samples returned by sample have\
+        the correct values\
+        """\
+        n_wires = 2\
+        dev = device(n_wires)\
+    \
+        phi = 0.543\
+        theta = 0.6543\
+    \
+        @qml.qnode(dev)\
+        def circuit():\
+            qml.RX(phi, wires=[0])\
+            qml.RY(theta, wires=[0])\
+            return qml.var(qml.PauliZ(wires=0))\
+    \
+>       res = circuit()\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py:640: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:73: in apply\
+    applied_operations = self.apply_operations(operations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d809d0d0>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+_______________________________________ TestTensorVar.test_paulix_pauliy[device_kwargs0] ________________________________________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d7b02e50>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d7b02290>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_measurements.TestTensorVar object at 0x7fa2d79db310>\
+device = <function device.<locals>._device at 0x7fa2d7c21c20>, tol = <function tol.<locals>._tol at 0x7fa2d7c217a0>\
+skip_if = <function skip_if.<locals>._skip_if at 0x7fa2d4b84f80>\
+\
+    def test_paulix_pauliy(self, device, tol, skip_if):\
+        """Test that a tensor product involving PauliX and PauliY works correctly"""\
+        n_wires = 3\
+        dev = device(n_wires)\
+        skip_if(dev, \{"supports_tensor_observables": False\})\
+    \
+        theta = 0.432\
+        phi = 0.123\
+        varphi = -0.543\
+    \
+        @qml.qnode(dev)\
+        def circuit():\
+            qml.RX(theta, wires=[0])\
+            qml.RX(phi, wires=[1])\
+            qml.RX(varphi, wires=[2])\
+            qml.CNOT(wires=[0, 1])\
+            qml.CNOT(wires=[1, 2])\
+            return qml.var(qml.PauliX(wires=[0]) @ qml.PauliY(wires=[2]))\
+    \
+>       res = circuit()\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py:705: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:73: in apply\
+    applied_operations = self.apply_operations(operations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d7b02e50>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+___________________________ TestCapabilities.test_model_is_defined_valid_and_correct[device_kwargs0] ____________________________\
+\
+self = <pennylane.devices.tests.test_properties.TestCapabilities object at 0x7fa2d711fd50>\
+device_kwargs = \{'name': 'pytket.mydevice', 'wires': 1\}\
+\
+    def test_model_is_defined_valid_and_correct(self, device_kwargs):\
+        """Test that the capabilities dictionary defines a valid model."""\
+        device_kwargs["wires"] = 1\
+        dev = qml.device(**device_kwargs)\
+        cap = dev.capabilities()\
+        assert "model" in cap\
+        assert cap["model"] in ["qubit", "cv"]\
+    \
+        qnode = qml.QNode(qfunc_no_input, dev)\
+    \
+        # assert that device can measure observable from its model\
+>       qnode()\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_properties.py:113: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:185: in execute\
+    self.check_validity(circuit.operations, circuit.observables)\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <pytketDevice device (wires=1, shots=1024) at 0x7fa2d711f290>, queue = [], observables = [expval(Identity(wires=[0]))]\
+\
+    def check_validity(self, queue, observables):\
+        """Checks whether the operations and observables in queue are all supported by the device.\
+        Includes checks for inverse operations.\
+    \
+        Args:\
+            queue (Iterable[~.operation.Operation]): quantum operation objects which are intended\
+                to be applied on the device\
+            observables (Iterable[~.operation.Observable]): observables which are intended\
+                to be evaluated on the device\
+    \
+        Raises:\
+            DeviceError: if there are operations in the queue or observables that the device does\
+                not support\
+        """\
+    \
+        for o in queue:\
+    \
+            operation_name = o.name\
+    \
+            if o.inverse:\
+                # TODO: update when all capabilities keys changed to "supports_inverse_operations"\
+                supports_inv = self.capabilities().get(\
+                    "supports_inverse_operations", False\
+                ) or self.capabilities().get("inverse_operations", False)\
+                if not supports_inv:\
+                    raise DeviceError(\
+                        "The inverse of gates are not supported on device \{\}".format(\
+                            self.short_name\
+                        )\
+                    )\
+                operation_name = o.base_name\
+    \
+            if not self.supports_operation(operation_name):\
+                raise DeviceError(\
+                    "Gate \{\} not supported on device \{\}".format(operation_name, self.short_name)\
+                )\
+    \
+        for o in observables:\
+    \
+            if isinstance(o, Tensor):\
+                # TODO: update when all capabilities keys changed to "supports_tensor_observables"\
+                supports_tensor = self.capabilities().get(\
+                    "supports_tensor_observables", False\
+                ) or self.capabilities().get("tensor_observables", False)\
+                if not supports_tensor:\
+                    raise DeviceError(\
+                        "Tensor observables not supported on device \{\}".format(self.short_name)\
+                    )\
+    \
+                for i in o.obs:\
+                    if not self.supports_observable(i.name):\
+                        raise DeviceError(\
+                            "Observable \{\} not supported on device \{\}".format(\
+                                i.name, self.short_name\
+                            )\
+                        )\
+            else:\
+    \
+                observable_name = o.name\
+    \
+                if issubclass(o.__class__, Operation) and o.inverse:\
+                    # TODO: update when all capabilities keys changed to "supports_inverse_operations"\
+                    supports_inv = self.capabilities().get(\
+                        "supports_inverse_operations", False\
+                    ) or self.capabilities().get("inverse_operations", False)\
+                    if not supports_inv:\
+                        raise DeviceError(\
+                            "The inverse of gates are not supported on device \{\}".format(\
+                                self.short_name\
+                            )\
+                        )\
+                    observable_name = o.base_name\
+    \
+                if not self.supports_observable(observable_name):\
+                    raise DeviceError(\
+                        "Observable \{\} not supported on device \{\}".format(\
+>                           observable_name, self.short_name\
+                        )\
+                    )\
+E                   pennylane._device.DeviceError: Observable Identity not supported on device pytket.mydevice\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_device.py:590: DeviceError\
+_______________________________ TestCapabilities.test_supports_tensor_observables[device_kwargs0] _______________________________\
+\
+self = <pennylane.devices.tests.test_properties.TestCapabilities object at 0x7fa2d7d49550>\
+device_kwargs = \{'name': 'pytket.mydevice', 'wires': 2\}\
+\
+    def test_supports_tensor_observables(self, device_kwargs):\
+        """Tests that the device reports correctly whether it supports tensor observables."""\
+        device_kwargs["wires"] = 2\
+        dev = qml.device(**device_kwargs)\
+        cap = dev.capabilities()\
+    \
+        if "supports_tensor_observables" not in cap:\
+            pytest.skip("No supports_tensor_observables capability specified by device.")\
+    \
+        qnode = qml.QNode(qfunc_tensor_obs, dev)\
+    \
+        if cap["supports_tensor_observables"]:\
+>           qnode()\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_properties.py:173: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:185: in execute\
+    self.check_validity(circuit.operations, circuit.observables)\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <pytketDevice device (wires=2, shots=1024) at 0x7fa2d7d49090>, queue = [], observables = [expval(Identity(wires=[0]))]\
+\
+    def check_validity(self, queue, observables):\
+        """Checks whether the operations and observables in queue are all supported by the device.\
+        Includes checks for inverse operations.\
+    \
+        Args:\
+            queue (Iterable[~.operation.Operation]): quantum operation objects which are intended\
+                to be applied on the device\
+            observables (Iterable[~.operation.Observable]): observables which are intended\
+                to be evaluated on the device\
+    \
+        Raises:\
+            DeviceError: if there are operations in the queue or observables that the device does\
+                not support\
+        """\
+    \
+        for o in queue:\
+    \
+            operation_name = o.name\
+    \
+            if o.inverse:\
+                # TODO: update when all capabilities keys changed to "supports_inverse_operations"\
+                supports_inv = self.capabilities().get(\
+                    "supports_inverse_operations", False\
+                ) or self.capabilities().get("inverse_operations", False)\
+                if not supports_inv:\
+                    raise DeviceError(\
+                        "The inverse of gates are not supported on device \{\}".format(\
+                            self.short_name\
+                        )\
+                    )\
+                operation_name = o.base_name\
+    \
+            if not self.supports_operation(operation_name):\
+                raise DeviceError(\
+                    "Gate \{\} not supported on device \{\}".format(operation_name, self.short_name)\
+                )\
+    \
+        for o in observables:\
+    \
+            if isinstance(o, Tensor):\
+                # TODO: update when all capabilities keys changed to "supports_tensor_observables"\
+                supports_tensor = self.capabilities().get(\
+                    "supports_tensor_observables", False\
+                ) or self.capabilities().get("tensor_observables", False)\
+                if not supports_tensor:\
+                    raise DeviceError(\
+                        "Tensor observables not supported on device \{\}".format(self.short_name)\
+                    )\
+    \
+                for i in o.obs:\
+                    if not self.supports_observable(i.name):\
+                        raise DeviceError(\
+                            "Observable \{\} not supported on device \{\}".format(\
+                                i.name, self.short_name\
+                            )\
+                        )\
+            else:\
+    \
+                observable_name = o.name\
+    \
+                if issubclass(o.__class__, Operation) and o.inverse:\
+                    # TODO: update when all capabilities keys changed to "supports_inverse_operations"\
+                    supports_inv = self.capabilities().get(\
+                        "supports_inverse_operations", False\
+                    ) or self.capabilities().get("inverse_operations", False)\
+                    if not supports_inv:\
+                        raise DeviceError(\
+                            "The inverse of gates are not supported on device \{\}".format(\
+                                self.short_name\
+                            )\
+                        )\
+                    observable_name = o.base_name\
+    \
+                if not self.supports_observable(observable_name):\
+                    raise DeviceError(\
+                        "Observable \{\} not supported on device \{\}".format(\
+>                           observable_name, self.short_name\
+                        )\
+                    )\
+E                   pennylane._device.DeviceError: Observable Identity not supported on device pytket.mydevice\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_device.py:590: DeviceError\
+______________________________________ TestCapabilities.test_returns_probs[device_kwargs0] ______________________________________\
+\
+self = <pennylane.devices.tests.test_properties.TestCapabilities object at 0x7fa2d7c4c950>\
+device_kwargs = \{'name': 'pytket.mydevice', 'wires': 1\}\
+\
+    def test_returns_probs(self, device_kwargs):\
+        """Tests that the device reports correctly whether it supports reversible differentiation."""\
+        device_kwargs["wires"] = 1\
+        dev = qml.device(**device_kwargs)\
+        cap = dev.capabilities()\
+    \
+        if "returns_probs" not in cap:\
+            pytest.skip("No returns_probs capability specified by device.")\
+    \
+        qnode = qml.QNode(qfunc_probs, dev)\
+    \
+        if cap["returns_probs"]:\
+>           qnode()\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_properties.py:228: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:185: in execute\
+    self.check_validity(circuit.operations, circuit.observables)\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <pytketDevice device (wires=1, shots=1024) at 0x7fa2d7c4cfd0>, queue = [], observables = [probs(wires=[0])]\
+\
+    def check_validity(self, queue, observables):\
+        """Checks whether the operations and observables in queue are all supported by the device.\
+        Includes checks for inverse operations.\
+    \
+        Args:\
+            queue (Iterable[~.operation.Operation]): quantum operation objects which are intended\
+                to be applied on the device\
+            observables (Iterable[~.operation.Observable]): observables which are intended\
+                to be evaluated on the device\
+    \
+        Raises:\
+            DeviceError: if there are operations in the queue or observables that the device does\
+                not support\
+        """\
+    \
+        for o in queue:\
+    \
+            operation_name = o.name\
+    \
+            if o.inverse:\
+                # TODO: update when all capabilities keys changed to "supports_inverse_operations"\
+                supports_inv = self.capabilities().get(\
+                    "supports_inverse_operations", False\
+                ) or self.capabilities().get("inverse_operations", False)\
+                if not supports_inv:\
+                    raise DeviceError(\
+                        "The inverse of gates are not supported on device \{\}".format(\
+                            self.short_name\
+                        )\
+                    )\
+                operation_name = o.base_name\
+    \
+            if not self.supports_operation(operation_name):\
+                raise DeviceError(\
+                    "Gate \{\} not supported on device \{\}".format(operation_name, self.short_name)\
+                )\
+    \
+        for o in observables:\
+    \
+            if isinstance(o, Tensor):\
+                # TODO: update when all capabilities keys changed to "supports_tensor_observables"\
+                supports_tensor = self.capabilities().get(\
+                    "supports_tensor_observables", False\
+                ) or self.capabilities().get("tensor_observables", False)\
+                if not supports_tensor:\
+                    raise DeviceError(\
+                        "Tensor observables not supported on device \{\}".format(self.short_name)\
+                    )\
+    \
+                for i in o.obs:\
+                    if not self.supports_observable(i.name):\
+                        raise DeviceError(\
+                            "Observable \{\} not supported on device \{\}".format(\
+                                i.name, self.short_name\
+                            )\
+                        )\
+            else:\
+    \
+                observable_name = o.name\
+    \
+                if issubclass(o.__class__, Operation) and o.inverse:\
+                    # TODO: update when all capabilities keys changed to "supports_inverse_operations"\
+                    supports_inv = self.capabilities().get(\
+                        "supports_inverse_operations", False\
+                    ) or self.capabilities().get("inverse_operations", False)\
+                    if not supports_inv:\
+                        raise DeviceError(\
+                            "The inverse of gates are not supported on device \{\}".format(\
+                                self.short_name\
+                            )\
+                        )\
+                    observable_name = o.base_name\
+    \
+                if not self.supports_observable(observable_name):\
+                    raise DeviceError(\
+                        "Observable \{\} not supported on device \{\}".format(\
+>                           observable_name, self.short_name\
+                        )\
+                    )\
+E                   pennylane._device.DeviceError: Observable Identity not supported on device pytket.mydevice\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_device.py:590: DeviceError\
+_______________ TestWiresIntegration.test_wires_expval[device_kwargs0-make_simple_circuit_expval-wires10-wires20] _______________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d6e45a10>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d6e45610>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_wires.TestWiresIntegration object at 0x7fa2d7061b90>\
+device = <function device.<locals>._device at 0x7fa2d7c6da70>\
+circuit_factory = <function make_simple_circuit_expval at 0x7fa2efdc4ef0>, wires1 = ['a', 'c', 'd'], wires2 = [2, 3, 0]\
+tol = <function tol.<locals>._tol at 0x7fa2d7c6d830>\
+\
+    @pytest.mark.parametrize(\
+        "wires1, wires2",\
+        [\
+            (["a", "c", "d"], [2, 3, 0]),\
+            ([-1, -2, -3], ["q1", "ancilla", 2]),\
+            (["a", "c"], [3, 0]),\
+            ([-1, -2], ["ancilla", 2]),\
+            (["a"], ["nothing"]),\
+        ],\
+    )\
+    @pytest.mark.parametrize("circuit_factory", [make_simple_circuit_expval])\
+    def test_wires_expval(self, device, circuit_factory, wires1, wires2, tol):\
+        """Test that the expectation of a circuit is independent from the wire labels used."""\
+        dev1 = device(wires1)\
+        dev2 = device(wires2)\
+    \
+        circuit1 = circuit_factory(dev1, wires1)\
+        circuit2 = circuit_factory(dev2, wires2)\
+    \
+>       assert np.allclose(circuit1(), circuit2(), atol=tol(dev1.analytic))\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_wires.py:65: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:73: in apply\
+    applied_operations = self.apply_operations(operations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d6e45a10>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+_______________ TestWiresIntegration.test_wires_expval[device_kwargs0-make_simple_circuit_expval-wires11-wires21] _______________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d6ec49d0>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d6ec43d0>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_wires.TestWiresIntegration object at 0x7fa2d7d5c590>\
+device = <function device.<locals>._device at 0x7fa2d7d5bb90>\
+circuit_factory = <function make_simple_circuit_expval at 0x7fa2efdc4ef0>, wires1 = [-1, -2, -3], wires2 = ['q1', 'ancilla', 2]\
+tol = <function tol.<locals>._tol at 0x7fa2d7d5bf80>\
+\
+    @pytest.mark.parametrize(\
+        "wires1, wires2",\
+        [\
+            (["a", "c", "d"], [2, 3, 0]),\
+            ([-1, -2, -3], ["q1", "ancilla", 2]),\
+            (["a", "c"], [3, 0]),\
+            ([-1, -2], ["ancilla", 2]),\
+            (["a"], ["nothing"]),\
+        ],\
+    )\
+    @pytest.mark.parametrize("circuit_factory", [make_simple_circuit_expval])\
+    def test_wires_expval(self, device, circuit_factory, wires1, wires2, tol):\
+        """Test that the expectation of a circuit is independent from the wire labels used."""\
+        dev1 = device(wires1)\
+        dev2 = device(wires2)\
+    \
+        circuit1 = circuit_factory(dev1, wires1)\
+        circuit2 = circuit_factory(dev2, wires2)\
+    \
+>       assert np.allclose(circuit1(), circuit2(), atol=tol(dev1.analytic))\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_wires.py:65: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:73: in apply\
+    applied_operations = self.apply_operations(operations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d6ec49d0>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0], 1: q[1], 2: q[2]\}, \{0: c[0], 1: c[1], 2: c[2]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+_______________ TestWiresIntegration.test_wires_expval[device_kwargs0-make_simple_circuit_expval-wires12-wires22] _______________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d7912190>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d79123d0>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_wires.TestWiresIntegration object at 0x7fa2d6d9f090>\
+device = <function device.<locals>._device at 0x7fa2d7dc4ef0>\
+circuit_factory = <function make_simple_circuit_expval at 0x7fa2efdc4ef0>, wires1 = ['a', 'c'], wires2 = [3, 0]\
+tol = <function tol.<locals>._tol at 0x7fa2d7dc4200>\
+\
+    @pytest.mark.parametrize(\
+        "wires1, wires2",\
+        [\
+            (["a", "c", "d"], [2, 3, 0]),\
+            ([-1, -2, -3], ["q1", "ancilla", 2]),\
+            (["a", "c"], [3, 0]),\
+            ([-1, -2], ["ancilla", 2]),\
+            (["a"], ["nothing"]),\
+        ],\
+    )\
+    @pytest.mark.parametrize("circuit_factory", [make_simple_circuit_expval])\
+    def test_wires_expval(self, device, circuit_factory, wires1, wires2, tol):\
+        """Test that the expectation of a circuit is independent from the wire labels used."""\
+        dev1 = device(wires1)\
+        dev2 = device(wires2)\
+    \
+        circuit1 = circuit_factory(dev1, wires1)\
+        circuit2 = circuit_factory(dev2, wires2)\
+    \
+>       assert np.allclose(circuit1(), circuit2(), atol=tol(dev1.analytic))\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_wires.py:65: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:73: in apply\
+    applied_operations = self.apply_operations(operations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d7912190>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+_______________ TestWiresIntegration.test_wires_expval[device_kwargs0-make_simple_circuit_expval-wires13-wires23] _______________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d6ec4f10>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d76186d0>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_wires.TestWiresIntegration object at 0x7fa2d7c4c0d0>\
+device = <function device.<locals>._device at 0x7fa2d7df69e0>\
+circuit_factory = <function make_simple_circuit_expval at 0x7fa2efdc4ef0>, wires1 = [-1, -2], wires2 = ['ancilla', 2]\
+tol = <function tol.<locals>._tol at 0x7fa2d7df68c0>\
+\
+    @pytest.mark.parametrize(\
+        "wires1, wires2",\
+        [\
+            (["a", "c", "d"], [2, 3, 0]),\
+            ([-1, -2, -3], ["q1", "ancilla", 2]),\
+            (["a", "c"], [3, 0]),\
+            ([-1, -2], ["ancilla", 2]),\
+            (["a"], ["nothing"]),\
+        ],\
+    )\
+    @pytest.mark.parametrize("circuit_factory", [make_simple_circuit_expval])\
+    def test_wires_expval(self, device, circuit_factory, wires1, wires2, tol):\
+        """Test that the expectation of a circuit is independent from the wire labels used."""\
+        dev1 = device(wires1)\
+        dev2 = device(wires2)\
+    \
+        circuit1 = circuit_factory(dev1, wires1)\
+        circuit2 = circuit_factory(dev2, wires2)\
+    \
+>       assert np.allclose(circuit1(), circuit2(), atol=tol(dev1.analytic))\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_wires.py:65: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:73: in apply\
+    applied_operations = self.apply_operations(operations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d6ec4f10>, name = '', global_phase = 0\
+regs = (\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0], 1: q[1]\}, \{0: c[0], 1: c[1]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+_______________ TestWiresIntegration.test_wires_expval[device_kwargs0-make_simple_circuit_expval-wires14-wires24] _______________\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d7c13210>, name = '', global_phase = 0\
+regs = (\{0: q[0]\}, \{0: c[0]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+>               regs = tuple(int(reg) for reg in regs)\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+.0 = <tuple_iterator object at 0x7fa2d7c131d0>\
+\
+>   regs = tuple(int(reg) for reg in regs)\
+E   TypeError: int() argument must be a string, a bytes-like object or a number, not 'dict'\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:143: TypeError\
+\
+During handling of the above exception, another exception occurred:\
+\
+self = <pennylane.devices.tests.test_wires.TestWiresIntegration object at 0x7fa2d79ec410>\
+device = <function device.<locals>._device at 0x7fa2d7df6200>\
+circuit_factory = <function make_simple_circuit_expval at 0x7fa2efdc4ef0>, wires1 = ['a'], wires2 = ['nothing']\
+tol = <function tol.<locals>._tol at 0x7fa2d7c98cb0>\
+\
+    @pytest.mark.parametrize(\
+        "wires1, wires2",\
+        [\
+            (["a", "c", "d"], [2, 3, 0]),\
+            ([-1, -2, -3], ["q1", "ancilla", 2]),\
+            (["a", "c"], [3, 0]),\
+            ([-1, -2], ["ancilla", 2]),\
+            (["a"], ["nothing"]),\
+        ],\
+    )\
+    @pytest.mark.parametrize("circuit_factory", [make_simple_circuit_expval])\
+    def test_wires_expval(self, device, circuit_factory, wires1, wires2, tol):\
+        """Test that the expectation of a circuit is independent from the wire labels used."""\
+        dev1 = device(wires1)\
+        dev2 = device(wires2)\
+    \
+        circuit1 = circuit_factory(dev1, wires1)\
+        circuit2 = circuit_factory(dev2, wires2)\
+    \
+>       assert np.allclose(circuit1(), circuit2(), atol=tol(dev1.analytic))\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_wires.py:65: \
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/interfaces/autograd.py:69: in __call__\
+    return self.evaluate(args, kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/autograd/tracer.py:48: in f_wrapped\
+    return f_raw(*args, **kwargs)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/qnodes/base.py:857: in evaluate\
+    ret = self.device.execute(self.circuit, return_native_type=temp)\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/_qubit_device.py:190: in execute\
+    self.apply(circuit.operations, rotations=circuit.diagonalizing_gates, **kwargs)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:73: in apply\
+    applied_operations = self.apply_operations(operations)\
+Desktop/PhD2020/2020/QOSF/pytket-pennylane/pytket-pennylane/pytket_pennylane/pytket_device.py:115: in apply_operations\
+    dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))\
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\
+\
+self = <qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x7fa2d7c13210>, name = '', global_phase = 0\
+regs = (\{0: q[0]\}, \{0: c[0]\})\
+\
+    def __init__(self, *regs, name=None, global_phase=0):\
+        if any([not isinstance(reg, (QuantumRegister, ClassicalRegister)) for reg in regs]):\
+            try:\
+                regs = tuple(int(reg) for reg in regs)\
+            except Exception:\
+                raise CircuitError("Circuit args must be Registers or be castable to an int" +\
+                                   "(%s '%s' was provided)"\
+>                                  % ([type(reg).__name__ for reg in regs], regs))\
+E               qiskit.circuit.exceptions.CircuitError: "Circuit args must be Registers or be castable to an int(['dict', 'dict'] '(\{0: q[0]\}, \{0: c[0]\})' was provided)"\
+\
+/opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/qiskit/circuit/quantumcircuit.py:147: CircuitError\
+======================================================= warnings summary ========================================================\
+../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/templates/embeddings/basis.py:18\
+  /opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/templates/embeddings/basis.py:18: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3,and in 3.9 it will stop working\
+    from collections import Iterable\
+\
+../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/tensorflow_core/python/pywrap_tensorflow_internal.py:15\
+  /opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/tensorflow_core/python/pywrap_tensorflow_internal.py:15: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses\
+    import imp\
+\
+../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/vqe/vqe.py:19\
+  /opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/vqe/vqe.py:19: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3,and in 3.9 it will stop working\
+    from collections import Sequence\
+\
+test_gates.py::TestSupportedGates::test_supported_gates_can_be_implemented[device_kwargs0-BasisState]\
+test_gates.py::TestSupportedGates::test_supported_gates_can_be_implemented[device_kwargs0-BasisState]\
+test_gates.py::TestSupportedGates::test_supported_gates_can_be_implemented[device_kwargs0-BasisState]\
+test_gates.py::TestSupportedGates::test_supported_gates_can_be_implemented[device_kwargs0-BasisState]\
+test_gates.py::TestSupportedGates::test_supported_gates_can_be_implemented[device_kwargs0-BasisState]\
+  /opt/anaconda3/envs/tensorflow_env/lib/python3.7/importlib/_bootstrap.py:219: RuntimeWarning: numpy.ufunc size changed, may indicate binary incompatibility. Expected 192 from C header, got 216 from PyObject\
+    return f(*args, **kwds)\
+\
+-- Docs: https://docs.pytest.org/en/stable/warnings.html\
+==================================================== short test summary info ====================================================\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py::TestSupportedObservables::test_supported_observables_can_be_implemented[device_kwargs0-PauliX]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py::TestSupportedObservables::test_supported_observables_can_be_implemented[device_kwargs0-PauliY]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py::TestSupportedObservables::test_supported_observables_can_be_implemented[device_kwargs0-PauliZ]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py::TestExpval::test_pauliz_expectation[device_kwargs0]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py::TestExpval::test_paulix_expectation[device_kwargs0]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py::TestExpval::test_pauliy_expectation[device_kwargs0]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py::TestTensorExpval::test_paulix_pauliy[device_kwargs0]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py::TestSample::test_sample_values[device_kwargs0]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py::TestTensorSample::test_paulix_pauliy[device_kwargs0]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py::TestVar::test_var[device_kwargs0]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_measurements.py::TestTensorVar::test_paulix_pauliy[device_kwargs0]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_properties.py::TestCapabilities::test_model_is_defined_valid_and_correct[device_kwargs0]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_properties.py::TestCapabilities::test_supports_tensor_observables[device_kwargs0]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_properties.py::TestCapabilities::test_returns_probs[device_kwargs0]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_wires.py::TestWiresIntegration::test_wires_expval[device_kwargs0-make_simple_circuit_expval-wires10-wires20]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_wires.py::TestWiresIntegration::test_wires_expval[device_kwargs0-make_simple_circuit_expval-wires11-wires21]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_wires.py::TestWiresIntegration::test_wires_expval[device_kwargs0-make_simple_circuit_expval-wires12-wires22]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_wires.py::TestWiresIntegration::test_wires_expval[device_kwargs0-make_simple_circuit_expval-wires13-wires23]\
+FAILED ../../opt/anaconda3/envs/tensorflow_env/lib/python3.7/site-packages/pennylane/devices/tests/test_wires.py::TestWiresIntegration::test_wires_expval[device_kwargs0-make_simple_circuit_expval-wires14-wires24]\
+========================= 19 failed, 17 passed, 69 skipped, 418 xfailed, 8 warnings in 71.82s (0:01:11) =========================}
