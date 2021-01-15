@@ -63,8 +63,8 @@ class pytketDevice(QubitDevice):
         # Reset only internal data, not the options that are determined on
         # device creation
         self._circuit = Circuit(name="temp")
-        self._reg = self._circuit.add_q_register("q", self.num_wires)
-        self._creg = self._circuit.add_c_register("c", self.num_wires)
+        self._reg = sorted(self._circuit.add_q_register("q", self.num_wires).values())
+        self._creg = sorted(self._circuit.add_c_register("c", self.num_wires).values())
         self._state = None  # statevector of a simulator backend
 
     def apply(self, operations, **kwargs):
@@ -77,7 +77,16 @@ class pytketDevice(QubitDevice):
         applied_operations.extend(rotation_circuits)
 
         for circuit in applied_operations:
-            self._circuit += circuit
+            self._circuit.append(circuit)
+
+        if not self.tket_backend.supports_state:
+            # Add measurements if they are needed
+            for qr, cr in zip(self._reg, self._creg):
+                self._circuit.Measure(qr, cr)
+
+        # These operations need to run for all devices
+        compiled_c = self.compile()
+        self.run(compiled_c)
 
     def apply_operations(self, operations):
         """Apply the circuit operations.
@@ -112,18 +121,42 @@ class pytketDevice(QubitDevice):
 
             ## will pytket.utils.Graph.as_nx() work here?
             ## pytket.circuit.Circuit "Encapsulates a quantum circuit using a DAG representation."?
-            dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))
-            gate = mapped_operation(*par)
+            # dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))
+            new_c = Circuit()
+            for q in self._reg:
+                new_c.add_qubit(q)
+            for c in self._creg:
+                new_c.add_bit(c)
 
+            # gate = mapped_operation(*par)
+
+            new_c.add_gate(mapped_operation, par, qregs)
             if operation.endswith(".inv"):
-                gate = gate.inverse()
+               new_c = new_c.dagger()
 
             ## need to apply inverse gate to dag circuit
-            dag.apply_operation_back(gate, qargs=qregs)
-            circuit = dag_to_circuit(dag)
-            circuits.append(circuit)
+            # dag.apply_operation_back(gate, qargs=qregs)
+            # circuit = dag_to_circuit(dag)
+            circuits.append(new_c)
 
         return circuits
+
+    def compile(self):
+        """Compile the quantum circuit to target the provided compile_backend.
+        If compile_backend is None, then the target is simply the
+        backend.
+        """
+        compile_c = self._circuit.copy()
+        self.tket_backend.compile_circuit(compile_c, 2)
+        return compile_c
+
+    def run(self, compiled_c):
+        """Run the compiled circuit, and query the result."""
+        self._current_handle = self.tket_backend.process_circuit(compiled_c, shots=self.shots)
+        result = self.tket_backend.get_result(self._current_handle)
+
+        if self.tket_backend.supports_state:
+            self._state = result.get_state(self._reg)
 
     @staticmethod
     def qubit_unitary_check(operation, par, wires):
@@ -142,6 +175,9 @@ class pytketDevice(QubitDevice):
         prob = self.marginal_prob(np.abs(self._state) ** 2, wires)
         return prob
 
+    def generate_samples(self):
+
+        return self.tket_backend.get_result(self._current_handle).get_shots(self._reg)
 # dev = qml.device(short_name = 'pytket.mydevice', wires=2, name = 'pytket-pennylane plugin')
 # @qml.qnode(dev)
 # def my_quantum_function(x, y):
