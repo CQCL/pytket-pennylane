@@ -1,81 +1,96 @@
-#creating device class to build Pennylane plugin
+# creating device class to build Pennylane plugin
+from typing import Any, Dict, Optional
+
+from pytket.backends.backend import Backend
+from pytket_pennylane.pennylane_convert import _OPERATION_MAP
 import numpy as np
 import pennylane as qml
-from pennylane import QubitDevice, DeviceError
-from pytket.extensions.qulacs import QulacsBackend
+from pennylane import QubitDevice, DeviceError, device
+# from pytket.extensions.qulacs import QulacsBackend
+from pytket.extensions.qiskit import AerStateBackend
 from pytket.circuit import OpType
-#from pytket.circuit import add_q_register, add_c_register
+
+# from pytket.circuit import add_q_register, add_c_register
 from pytket import Circuit, Qubit, Bit
 from ._version import __version__
 
 from qiskit.circuit.measure import measure
 from qiskit.circuit import QuantumCircuit
-#from qiskit.compiler import assemble, transpile
+
+# from qiskit.compiler import assemble, transpile
 from qiskit.converters import circuit_to_dag, dag_to_circuit
 
-
+# TODO add all pennylane operations https://pennylane.readthedocs.io/en/stable/introduction/operations.html
 PYTKET_OPERATION_MAP = {
-    "Hadamard" : OpType.H,
-    "PauliX" : OpType.X,
-    "PauliY" : OpType.Y,
-    "PauliZ" : OpType.Z,
-    "S" : OpType.S,
-    "T" : OpType.T,
-    "RX" : OpType.Rx, 
-    "RY" : OpType.Ry,
-    "RZ" : OpType.Rz,
-    "CNOT" : OpType.CX,
-    "CY" : OpType.CY,
-    "CZ" : OpType.CZ,
-    "SWAP" : OpType.SWAP,
-    "U1" : OpType.U1,
-    "U2" : OpType.U2,
-    "U3" : OpType.U3,
-    "CRZ" : OpType.CRz,
-    "Toffoli" : OpType.CCX,
-    "CSWAP" : OpType.CSWAP,
-    "QubitUnitary" : OpType.Unitary2qBox
+    "Hadamard": OpType.H,
+    "PauliX": OpType.X,
+    "PauliY": OpType.Y,
+    "PauliZ": OpType.Z,
+    "S": OpType.S,
+    "T": OpType.T,
+    "RX": OpType.Rx,
+    "RY": OpType.Ry,
+    "RZ": OpType.Rz,
+    "CNOT": OpType.CX,
+    "CY": OpType.CY,
+    "CZ": OpType.CZ,
+    "SWAP": OpType.SWAP,
+    "U1": OpType.U1,
+    "U2": OpType.U2,
+    "U3": OpType.U3,
+    "CRZ": OpType.CRz,
+    "Toffoli": OpType.CCX,
+    "CSWAP": OpType.CSWAP,
 }
 
 PYTKET_OPERATION_INVERSES_MAP = {k + ".inv": v for k, v in PYTKET_OPERATION_MAP.items()}
 
+
 class pytketDevice(QubitDevice):
     """MyDevice docstring"""
-    name = 'pytket-pennylane plugin'
-    short_name = 'pytket.mydevice'
-    pennylane_requires = '>=0.13.0'
-    version = '0.1.0'
+
+    name = "pytket-pennylane plugin"
+    short_name = "pytket.mydevice"
+    pennylane_requires = ">=0.13.0"
+    version = "0.1.0"
     plugin_version = __version__
-    author = 'KN'
+    author = "KN"
 
     _operation_map = {**PYTKET_OPERATION_MAP, **PYTKET_OPERATION_INVERSES_MAP}
     operations = set(_operation_map.keys())
-    observables = {"PauliX", "PauliY", "PauliZ"}
-    _capabilities = {"model": "qubit"}
+    observables = {"PauliX", "PauliY", "PauliZ", "Identity", "Hadamard"}
 
-    #qml->qiskit->tket
+    def __init__(self, wires, tket_backend:Backend =AerStateBackend(), shots=1024):
+        self.tket_backend = tket_backend
+        super().__init__(
+            wires=wires, shots=shots, analytic=self.tket_backend.supports_state
+        )
 
-    def __init__(self, wires, shots=1024, backend=QulacsBackend()):
-        super().__init__(wires=wires, shots=shots)
-        self.tket_backend = backend
+    def capabilities(self):
+        cap_dic: Dict[str, Any] = super().capabilities()
+        cap_dic.update(
+            {
+                "supports_finite_shots": self.tket_backend.supports_shots,
+                "returns_state": self.tket_backend.supports_state,
+                "supports_inverse_operations": True
+            }
+        )
+        return cap_dic
 
     def reset(self):
         # Reset only internal data, not the options that are determined on
         # device creation
         self._circuit = Circuit(name="temp")
-        self._reg  = [Qubit("q", i) for i in range(self.num_wires)]
+        self._reg = [Qubit("q", i) for i in range(self.num_wires)]
         self._creg = [Bit("c", i) for i in range(self.num_wires)]
         for q in self._reg:
             self._circuit.add_qubit(q)
         for b in self._creg:
             self._circuit.add_bit(b)
-        # self._reg = sorted(list(self._circuit.add_q_register("q", self.num_wires)))
-        # self._creg = sorted(list(self._circuit.add_c_register("c", self.num_wires)))
-        # print(self._reg, self._creg)
         self._state = None  # statevector of a simulator backend
 
     def apply(self, operations, **kwargs):
-        rotations = kwargs.get("rotations", []) 
+        rotations = kwargs.get("rotations", [])
 
         applied_operations = self.apply_operations(operations)
 
@@ -104,7 +119,7 @@ class pytketDevice(QubitDevice):
             operations (List[pennylane.Operation]): operations to be applied
 
         Returns:
-            list[QuantumCircuit]: a list of quantum circuit objects that
+            list[Circuit]: a list of tket circuit objects that
                 specify the corresponding operations
         """
         circuits = []
@@ -121,25 +136,23 @@ class pytketDevice(QubitDevice):
 
             qregs = [self._reg[i] for i in device_wires.labels]
 
-            if operation.split(".inv")[0] in ("QubitUnitary"):
-                # Need to revert the order of the quantum registers used in
-                # circuit such that it matches the PennyLane ordering
-                qregs = list(reversed(qregs))
+            # if operation.split(".inv")[0] in ("QubitUnitary"):
+            #     # Need to revert the order of the quantum registers used in
+            #     # circuit such that it matches the PennyLane ordering
+            #     qregs = list(reversed(qregs))
+            invert = operation.endswith(".inv")
 
-            ## will pytket.utils.Graph.as_nx() work here?
-            ## pytket.circuit.Circuit "Encapsulates a quantum circuit using a DAG representation."?
-            # dag = circuit_to_dag(QuantumCircuit(self._reg, self._creg, name=""))
             new_c = Circuit()
             for q in self._reg:
                 new_c.add_qubit(q)
-            for c in self._creg:
-                new_c.add_bit(c)
+            if not invert:
+                for c in self._creg:
+                    new_c.add_bit(c)
 
             # gate = mapped_operation(*par)
-
-            new_c.add_gate(mapped_operation, par, qregs)
-            if operation.endswith(".inv"):
-               new_c = new_c.dagger()
+            new_c.add_gate(mapped_operation, [p / np.pi for p in par], qregs)
+            if invert:
+                new_c = new_c.dagger()
 
             ## need to apply inverse gate to dag circuit
             # dag.apply_operation_back(gate, qargs=qregs)
@@ -157,13 +170,21 @@ class pytketDevice(QubitDevice):
         self.tket_backend.compile_circuit(compile_c, 2)
         return compile_c
 
-    def run(self, compiled_c):
+    def run(self, compiled_c: Circuit):
         """Run the compiled circuit, and query the result."""
-        self._current_handle = self.tket_backend.process_circuit(compiled_c, shots=self.shots)
-        result = self.tket_backend.get_result(self._current_handle)
+        shots = None
+        if self.tket_backend.supports_shots:
+            shots = self.shots
+            if compiled_c.n_gates_of_type(OpType.Measure) == 0:
+                compiled_c.measure_all()
+
+        handle = self.tket_backend.process_circuit(compiled_c, n_shots=shots)
+        self._backres = self.tket_backend.get_result(handle)
 
         if self.tket_backend.supports_state:
-            self._state = result.get_state(self._reg)
+            self._state = self._backres.get_state(self._reg)
+        if self.tket_backend.supports_shots:
+            self._backres_shots = self._backres.get_shots(self._creg)
 
     @staticmethod
     def qubit_unitary_check(operation, par, wires):
@@ -183,8 +204,23 @@ class pytketDevice(QubitDevice):
         return prob
 
     def generate_samples(self):
+        if self.tket_backend.supports_shots:
+            return self._backres_shots
+        else:
+            return super().generate_samples()
 
-        return self.tket_backend.get_result(self._current_handle).get_shots(self._reg)
+    @property
+    def state(self):
+        return self._state
+# class pytketQulacs(pytketDevice):
+#     """QulacsBackend wrapper."""
+
+#     short_name = "pytket.qulacsbackend"
+
+#     def __init__(self, wires, shots=1024):
+#         back = QulacsBackend()
+#         super().__init__(wires, back, shots=shots)
+
 # dev = qml.device(short_name = 'pytket.mydevice', wires=2, name = 'pytket-pennylane plugin')
 # @qml.qnode(dev)
 # def my_quantum_function(x, y):
