@@ -2,10 +2,10 @@
 import numpy as np
 import pennylane as qml
 from pennylane import QubitDevice, DeviceError
-from pytket.backends.qulacs import QulacsBackend
+from pytket.extensions.qulacs import QulacsBackend
 from pytket.circuit import OpType
 #from pytket.circuit import add_q_register, add_c_register
-from pytket import Circuit
+from pytket import Circuit, Qubit, Bit
 from ._version import __version__
 
 from qiskit.circuit.measure import measure
@@ -63,8 +63,15 @@ class pytketDevice(QubitDevice):
         # Reset only internal data, not the options that are determined on
         # device creation
         self._circuit = Circuit(name="temp")
-        self._reg = sorted(self._circuit.add_q_register("q", self.num_wires).values())
-        self._creg = sorted(self._circuit.add_c_register("c", self.num_wires).values())
+        self._reg  = [Qubit("q", i) for i in range(self.num_wires)]
+        self._creg = [Bit("c", i) for i in range(self.num_wires)]
+        for q in self._reg:
+            self._circuit.add_qubit(q)
+        for b in self._creg:
+            self._circuit.add_bit(b)
+        # self._reg = sorted(list(self._circuit.add_q_register("q", self.num_wires)))
+        # self._creg = sorted(list(self._circuit.add_c_register("c", self.num_wires)))
+        # print(self._reg, self._creg)
         self._state = None  # statevector of a simulator backend
 
     def apply(self, operations, **kwargs):
