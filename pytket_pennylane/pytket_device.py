@@ -3,6 +3,7 @@ from typing import Any, Dict, Optional
 
 import numpy as np
 from pytket.backends.backend import Backend
+from pytket.passes import BasePass
 from pennylane import QubitDevice
 
 # from pytket.extensions.qulacs import QulacsBackend
@@ -31,16 +32,27 @@ class pytketDevice(QubitDevice):
     operations = set(_operation_map.keys())
     observables = {"PauliX", "PauliY", "PauliZ", "Identity", "Hadamard"}
 
-    def __init__(self, wires, tket_backend: Backend = AerBackend(), shots=8192):
+    def __init__(
+        self,
+        wires,
+        tket_backend: Backend = AerBackend(),
+        compilation_pass: Optional[BasePass] = None,
+        shots=8192,
+    ):
         if not (tket_backend.supports_shots or tket_backend.supports_state):
             raise ValueError("pytket Backend must support shots or state.")
         self.tket_backend = tket_backend
+        self.compilation_pass = (
+            self.tket_backend.default_compilation_pass()
+            if compilation_pass is None
+            else compilation_pass
+        )
         super().__init__(
             wires=wires, shots=shots, analytic=self.tket_backend.supports_state
         )
 
     def capabilities(self):
-        cap_dic: Dict[str, Any] = super().capabilities()
+        cap_dic: Dict[str, Any] = super().capabilities().copy()
         cap_dic.update(
             {
                 "supports_finite_shots": self.tket_backend.supports_shots,
@@ -67,7 +79,7 @@ class pytketDevice(QubitDevice):
             self._wire_map,
             self._reg,
             self._creg,
-            not self.tket_backend.supports_state,
+            measure=(not self.tket_backend.supports_state),
         )
         # These operations need to run for all devices
         compiled_c = self.compile(self._circuit)
@@ -79,7 +91,7 @@ class pytketDevice(QubitDevice):
         backend.
         """
         compile_c = circuit.copy()
-        self.tket_backend.compile_circuit(compile_c, 2)
+        self.compilation_pass.apply(compile_c)
         return compile_c
 
     def run(self, compiled_c: Circuit):
@@ -89,7 +101,6 @@ class pytketDevice(QubitDevice):
             shots = self.shots
             if compiled_c.n_gates_of_type(OpType.Measure) == 0:
                 compiled_c.measure_all()
-
         handle = self.tket_backend.process_circuit(compiled_c, n_shots=shots)
         self._backres = self.tket_backend.get_result(handle)
 
