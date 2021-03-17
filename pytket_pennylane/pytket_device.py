@@ -1,13 +1,13 @@
 # creating device class to build Pennylane plugin
 from typing import Any, Dict, Optional
 
+import numpy as np
 from pytket.backends.backend import Backend
 from pytket_pennylane.pennylane_convert import _OPERATION_MAP
-import numpy as np
 import pennylane as qml
 from pennylane import QubitDevice, DeviceError, device
 # from pytket.extensions.qulacs import QulacsBackend
-from pytket.extensions.qiskit import AerStateBackend
+from pytket.extensions.qiskit import AerStateBackend, AerBackend
 from pytket.circuit import OpType
 
 # from pytket.circuit import add_q_register, add_c_register
@@ -60,7 +60,9 @@ class pytketDevice(QubitDevice):
     operations = set(_operation_map.keys())
     observables = {"PauliX", "PauliY", "PauliZ", "Identity", "Hadamard"}
 
-    def __init__(self, wires, tket_backend:Backend =AerStateBackend(), shots=1024):
+    def __init__(self, wires, tket_backend:Backend =AerStateBackend(), shots=8192):
+        if not (tket_backend.supports_shots or tket_backend.supports_state):
+            raise ValueError("pytket Backend must support shots or state.")
         self.tket_backend = tket_backend
         super().__init__(
             wires=wires, shots=shots, analytic=self.tket_backend.supports_state
@@ -167,6 +169,7 @@ class pytketDevice(QubitDevice):
         backend.
         """
         compile_c = self._circuit.copy()
+        print(repr(compile_c))
         self.tket_backend.compile_circuit(compile_c, 2)
         return compile_c
 
@@ -181,11 +184,6 @@ class pytketDevice(QubitDevice):
         handle = self.tket_backend.process_circuit(compiled_c, n_shots=shots)
         self._backres = self.tket_backend.get_result(handle)
 
-        if self.tket_backend.supports_state:
-            self._state = self._backres.get_state(self._reg)
-        if self.tket_backend.supports_shots:
-            self._backres_shots = self._backres.get_shots(self._creg)
-
     @staticmethod
     def qubit_unitary_check(operation, par, wires):
         """Input check for the the QubitUnitary operation."""
@@ -197,21 +195,25 @@ class pytketDevice(QubitDevice):
                 )
 
     def analytic_probability(self, wires=None):
-        if self._state is None:
+        if self.state is None:
             return None
-
-        prob = self.marginal_prob(np.abs(self._state) ** 2, wires)
+        prob = self.marginal_prob(np.abs(self.state) ** 2, wires)
         return prob
 
     def generate_samples(self):
         if self.tket_backend.supports_shots:
-            return self._backres_shots
+            self._samples = np.asarray(self._backres.get_shots(self._creg), dtype=int)
+            return self._samples
         else:
             return super().generate_samples()
 
     @property
     def state(self):
-        return self._state
+        if self.tket_backend.supports_state:
+            if self._state is None:
+                self._state = self._backres.get_state(self._reg)
+            return self._state
+        raise AttributeError("Device does not support state.")
 # class pytketQulacs(pytketDevice):
 #     """QulacsBackend wrapper."""
 
