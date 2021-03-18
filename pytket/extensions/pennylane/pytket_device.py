@@ -6,8 +6,7 @@ from pytket.backends.backend import Backend
 from pytket.passes import BasePass
 from pennylane import QubitDevice
 
-# from pytket.extensions.qulacs import QulacsBackend
-from pytket.extensions.qiskit import AerStateBackend, AerBackend
+from pytket.extensions.qiskit import AerStateBackend
 from pytket.circuit import OpType, Circuit
 
 from .pennylane_convert import (
@@ -32,22 +31,24 @@ class PytketDevice(QubitDevice):
 
     def __init__(
         self,
-        wires,
-        tket_backend: Backend = AerBackend(),
+        wires: int,
+        tket_backend: Backend = AerStateBackend(),
         compilation_pass: Optional[BasePass] = None,
         shots=8192,
     ):
-        """[summary]
+        """Construct a device that use a Pytket Backend and compilation to
+        execute circuits.
 
-        :param wires: [description]
-        :type wires: [type]
-        :param tket_backend: [description], defaults to AerBackend()
+        :param wires: Number of wires   
+        :type wires: int
+        :param tket_backend: Pytket Backend class to use, defaults to AerStateBackend()
+            to facilitate automated pennylane testing of this backend
         :type tket_backend: Backend, optional
-        :param compilation_pass: [description], defaults to None
+        :param compilation_pass: Pytket compiler pass with which to compile circuits, defaults to None
         :type compilation_pass: Optional[BasePass], optional
-        :param shots: [description], defaults to 8192
+        :param shots: Number of shots to use (only relevant for sampling backends), defaults to 8192
         :type shots: int, optional
-        :raises ValueError: [description]
+        :raises ValueError: If the Backend does not support shots or state results
         """
         if not (tket_backend.supports_shots or tket_backend.supports_state):
             raise ValueError("pytket Backend must support shots or state.")
@@ -109,16 +110,6 @@ class PytketDevice(QubitDevice):
                 compiled_c.measure_all()
         handle = self.tket_backend.process_circuit(compiled_c, n_shots=shots)
         self._backres = self.tket_backend.get_result(handle)
-
-    # @staticmethod
-    # def qubit_unitary_check(operation, par, wires):
-    #     """Input check for the the QubitUnitary operation."""
-    #     if operation == "QubitUnitary":
-    #         if len(par[0]) != 2 ** len(wires):
-    #             raise ValueError(
-    #                 "Unitary matrix must be of shape (2**wires,\
-    #                     2**wires)."
-    #             )
 
     def analytic_probability(self, wires=None):
         if self.state is None:
