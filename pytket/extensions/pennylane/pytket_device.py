@@ -37,6 +37,18 @@ class PytketDevice(QubitDevice):
         compilation_pass: Optional[BasePass] = None,
         shots=8192,
     ):
+        """[summary]
+
+        :param wires: [description]
+        :type wires: [type]
+        :param tket_backend: [description], defaults to AerBackend()
+        :type tket_backend: Backend, optional
+        :param compilation_pass: [description], defaults to None
+        :type compilation_pass: Optional[BasePass], optional
+        :param shots: [description], defaults to 8192
+        :type shots: int, optional
+        :raises ValueError: [description]
+        """
         if not (tket_backend.supports_shots or tket_backend.supports_state):
             raise ValueError("pytket Backend must support shots or state.")
         self.tket_backend = tket_backend
@@ -84,10 +96,6 @@ class PytketDevice(QubitDevice):
         self.run(compiled_c)
 
     def compile(self, circuit: Circuit):
-        """Compile the quantum circuit to target the provided compile_backend.
-        If compile_backend is None, then the target is simply the
-        backend.
-        """
         compile_c = circuit.copy()
         self.compilation_pass.apply(compile_c)
         return compile_c
@@ -102,15 +110,15 @@ class PytketDevice(QubitDevice):
         handle = self.tket_backend.process_circuit(compiled_c, n_shots=shots)
         self._backres = self.tket_backend.get_result(handle)
 
-    @staticmethod
-    def qubit_unitary_check(operation, par, wires):
-        """Input check for the the QubitUnitary operation."""
-        if operation == "QubitUnitary":
-            if len(par[0]) != 2 ** len(wires):
-                raise ValueError(
-                    "Unitary matrix must be of shape (2**wires,\
-                        2**wires)."
-                )
+    # @staticmethod
+    # def qubit_unitary_check(operation, par, wires):
+    #     """Input check for the the QubitUnitary operation."""
+    #     if operation == "QubitUnitary":
+    #         if len(par[0]) != 2 ** len(wires):
+    #             raise ValueError(
+    #                 "Unitary matrix must be of shape (2**wires,\
+    #                     2**wires)."
+    #             )
 
     def analytic_probability(self, wires=None):
         if self.state is None:
