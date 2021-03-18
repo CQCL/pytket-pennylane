@@ -8,15 +8,16 @@ import pennylane as qml
 
 # dev = qml.device("qiskit.aer", wires=2)
 from pytket.extensions.qiskit import AerStateBackend
-
+from pytket.passes import RebaseHQS as test_pass
 dev = qml.device(
-    "pytket.mydevice",
+    "pytket.pytketdevice",
     wires=2,
     tket_backend=AerStateBackend(),
-    compilation_pass=AerStateBackend().default_compilation_pass(0),
+    # compilation_pass=AerStateBackend().default_compilation_pass(0),
+    compilation_pass=test_pass()
 )
 print(dev.tket_backend)
 print(dev.compilation_pass)
 from pennylane.devices.tests import test_device
 
-test_device("pytket.mydevice", pytest_args=["-x", "-s"])
+test_device("pytket.pytketdevice", pytest_args=["-x", "-s"])

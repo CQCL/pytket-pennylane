@@ -1,54 +1,45 @@
-# Copyright 2018 Carsten Blank
+import shutil
+import os
+from setuptools import setup, find_namespace_packages  # type: ignore
 
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-
-#     http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-#!/usr/bin/env python3
-from setuptools import setup
-
-with open("pytket_pennylane/_version.py") as f:
-    version = f.readlines()[-1].split()[-1].strip("\"'")
-
-requirements = [
-    "numpy"
-]
-
-# TODO update info
-info = {
-    'name': 'pytket-pennylane',
-    'version': version,
-    'maintainer': 'Xanadu',
-    'maintainer_email': 'software@xanadu.ai',
-    'url': 'https://github.com/kimaranaicker/pytket-pennylane',
-    'license': 'Apache License 2.0',
-    'packages': [
-        'pytket_pennylane'
-    ]
-
-}
-
-classifiers = [
-    "Natural Language :: English",
-    "Programming Language :: Python",
-    'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.5',
-    'Programming Language :: Python :: 3.6',
-    'Programming Language :: Python :: 3.7',
-    'Programming Language :: Python :: 3.8',
-    'Programming Language :: Python :: 3 :: Only',
-]
+metadata: dict = {}
+with open("_metadata.py") as fp:
+    exec(fp.read(), metadata)
+shutil.copy(
+    "_metadata.py", os.path.join("pytket", "extensions", "pennylane", "_metadata.py"),
+)
 
 devices_list = [
-        'pytket.mydevice=pytket_pennylane:pytketDevice',
-    ]
+    "pytket.pytketdevice=pytket.extensions.pennylane:PytketDevice",
+]
 
-setup(classifiers=classifiers, **(info), entry_points={'pennylane.plugins': devices_list})
+setup(
+    name=metadata["__extension_name__"],
+    version=metadata["__extension_version__"],
+    author="KN",
+    author_email="seyon.sivarajah@cambridgequantum.com",
+    python_requires=">=3.7",
+    url="https://github.com/kimaranaicker/pytket-pennylane",
+    description="Pytket extension and Pennylane plugin.",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
+    license="Apache 2",
+    packages=find_namespace_packages(include=["pytket.*"]),
+    include_package_data=True,
+    install_requires=["pytket ~= 0.8.0", "pennylane ~= 0.14",],
+    classifiers=[
+        "Environment :: Console",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "License :: Other/Proprietary License",
+        "Operating System :: MacOS :: MacOS X",
+        "Operating System :: POSIX :: Linux",
+        "Operating System :: Microsoft :: Windows",
+        "Intended Audience :: Developers",
+        "Intended Audience :: Science/Research",
+        "Topic :: Scientific/Engineering",
+    ],
+    zip_safe=False,
+    entry_points={"pennylane.plugins": devices_list},
+)

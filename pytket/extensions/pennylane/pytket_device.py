@@ -10,22 +10,20 @@ from pennylane import QubitDevice
 from pytket.extensions.qiskit import AerStateBackend, AerBackend
 from pytket.circuit import OpType, Circuit
 
-from ._version import __version__
-
 from .pennylane_convert import (
     OPERATION_MAP,
     pennylane_to_tk,
 )
 
 
-class pytketDevice(QubitDevice):
-    """MyDevice docstring"""
+class PytketDevice(QubitDevice):
+    """PytketDevice allows pytket backends and compilation to be used as Pennylane devices."""
 
     name = "pytket-pennylane plugin"
-    short_name = "pytket.mydevice"
+    short_name = "pytket.pytketdevice"
     pennylane_requires = ">=0.14.0"
-    version = "0.1.0"
-    plugin_version = __version__
+    version = "0.14.0"
+    plugin_version = "0.1.0"
     author = "KN"
 
     _operation_map = OPERATION_MAP
