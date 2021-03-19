@@ -1,4 +1,3 @@
-# creating device class to build Pennylane plugin
 from typing import Any, Dict, Optional
 
 import numpy as np
@@ -32,42 +31,48 @@ class PytketDevice(QubitDevice):
     def __init__(
         self,
         wires: int,
-        tket_backend: Backend = AerStateBackend(),
-        compilation_pass: Optional[BasePass] = None,
         shots=8192,
+        pytket_backend: Backend = AerStateBackend(),
+        optimisation_level: Optional[int] = None,
+        compilation_pass: Optional[BasePass] = None,
     ):
         """Construct a device that use a Pytket Backend and compilation to
         execute circuits.
 
         :param wires: Number of wires   
         :type wires: int
-        :param tket_backend: Pytket Backend class to use, defaults to AerStateBackend()
-            to facilitate automated pennylane testing of this backend
-        :type tket_backend: Backend, optional
-        :param compilation_pass: Pytket compiler pass with which to compile circuits, defaults to None
-        :type compilation_pass: Optional[BasePass], optional
         :param shots: Number of shots to use (only relevant for sampling backends), defaults to 8192
         :type shots: int, optional
+        :param pytket_backend: Pytket Backend class to use, defaults to AerStateBackend()
+            to facilitate automated pennylane testing of this backend
+        :type pytket_backend: Backend, optional
+        :param optimisation_level: Backend default compilation optimisation level, ignored if `compilation_pass` is set,
+         defaults to None
+        :type optimisation_level: int, optional
+        :param compilation_pass: Pytket compiler pass with which to compile circuits, defaults to None
+        :type compilation_pass: Optional[BasePass], optional
         :raises ValueError: If the Backend does not support shots or state results
         """
-        if not (tket_backend.supports_shots or tket_backend.supports_state):
+        if not (pytket_backend.supports_shots or pytket_backend.supports_state):
             raise ValueError("pytket Backend must support shots or state.")
-        self.tket_backend = tket_backend
-        self.compilation_pass = (
-            self.tket_backend.default_compilation_pass()
-            if compilation_pass is None
-            else compilation_pass
-        )
+        self.pytket_backend = pytket_backend
+        if compilation_pass is None:
+            if optimisation_level is None:
+                self.compilation_pass = self.pytket_backend.default_compilation_pass()
+            else:
+                self.compilation_pass = self.pytket_backend.default_compilation_pass(optimisation_level)
+        else:
+            self.compilation_pass = compilation_pass
         super().__init__(
-            wires=wires, shots=shots, analytic=self.tket_backend.supports_state
+            wires=wires, shots=shots, analytic=self.pytket_backend.supports_state
         )
 
     def capabilities(self):
         cap_dic: Dict[str, Any] = super().capabilities().copy()
         cap_dic.update(
             {
-                "supports_finite_shots": self.tket_backend.supports_shots,
-                "returns_state": self.tket_backend.supports_state,
+                "supports_finite_shots": self.pytket_backend.supports_shots,
+                "returns_state": self.pytket_backend.supports_state,
                 "supports_inverse_operations": True,
             }
         )
@@ -79,7 +84,9 @@ class PytketDevice(QubitDevice):
         self._circuit = Circuit(name="temp")
         self._reg = self._circuit.add_q_register("q", self.num_wires)
         self._creg = self._circuit.add_c_register("c", self.num_wires)
+        self._backres = None
         self._state = None  # statevector of a simulator backend
+        self._samples = None
         super().reset()
 
     def apply(self, operations, **kwargs):
@@ -90,7 +97,7 @@ class PytketDevice(QubitDevice):
             self._wire_map,
             self._reg,
             self._creg,
-            measure=(not self.tket_backend.supports_state),
+            measure=(not self.pytket_backend.supports_state),
         )
         # These operations need to run for all devices
         compiled_c = self.compile(self._circuit)
@@ -104,12 +111,12 @@ class PytketDevice(QubitDevice):
     def run(self, compiled_c: Circuit):
         """Run the compiled circuit, and query the result."""
         shots = None
-        if self.tket_backend.supports_shots:
+        if self.pytket_backend.supports_shots:
             shots = self.shots
             if compiled_c.n_gates_of_type(OpType.Measure) == 0:
                 compiled_c.measure_all()
-        handle = self.tket_backend.process_circuit(compiled_c, n_shots=shots)
-        self._backres = self.tket_backend.get_result(handle)
+        handle = self.pytket_backend.process_circuit(compiled_c, n_shots=shots)
+        self._backres = self.pytket_backend.get_result(handle)
 
     def analytic_probability(self, wires=None):
         if self.state is None:
@@ -118,7 +125,7 @@ class PytketDevice(QubitDevice):
         return prob
 
     def generate_samples(self):
-        if self.tket_backend.supports_shots:
+        if self.pytket_backend.supports_shots:
             self._samples = np.asarray(self._backres.get_shots(self._creg), dtype=int)
             return self._samples
         else:
@@ -126,7 +133,7 @@ class PytketDevice(QubitDevice):
 
     @property
     def state(self):
-        if self.tket_backend.supports_state:
+        if self.pytket_backend.supports_state:
             if self._state is None:
                 self._state = self._backres.get_state(self._reg)
             return self._state

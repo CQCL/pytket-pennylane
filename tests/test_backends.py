@@ -49,7 +49,7 @@ def test_backends():
         dev = qml.device(
             "pytket.pytketdevice",
             wires=3,
-            tket_backend=back,
+            pytket_backend=back,
             shots=100000
         )
 
@@ -63,7 +63,7 @@ def test_backends():
     dev = qml.device(
         "pytket.pytketdevice",
         wires=3,
-        tket_backend=AerStateBackend(),
+        pytket_backend=AerStateBackend(),
         compilation_pass=test_pass()
     )
     assert dev.compilation_pass.get_config()["name"] == "RebaseHQS"
