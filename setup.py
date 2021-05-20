@@ -6,7 +6,8 @@ metadata: dict = {}
 with open("_metadata.py") as fp:
     exec(fp.read(), metadata)
 shutil.copy(
-    "_metadata.py", os.path.join("pytket", "extensions", "pennylane", "_metadata.py"),
+    "_metadata.py",
+    os.path.join("pytket", "extensions", "pennylane", "_metadata.py"),
 )
 
 devices_list = [
@@ -26,7 +27,11 @@ setup(
     license="Apache 2",
     packages=find_namespace_packages(include=["pytket.*"]),
     include_package_data=True,
-    install_requires=["pytket ~= 0.9.0", "pennylane ~= 0.14", "pytket-qiskit ~= 0.9.0"],
+    install_requires=[
+        "pytket ~= 0.10.1",
+        "pennylane ~= 0.15.0",
+        "pytket-qiskit ~= 0.10.0",
+    ],
     classifiers=[
         "Environment :: Console",
         "Programming Language :: Python :: 3.7",

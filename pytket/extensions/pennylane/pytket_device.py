@@ -31,7 +31,7 @@ class PytketDevice(QubitDevice):
     def __init__(
         self,
         wires: int,
-        shots=8192,
+        shots: Optional[int] = None,
         pytket_backend: Backend = AerStateBackend(),
         optimisation_level: Optional[int] = None,
         compilation_pass: Optional[BasePass] = None,
@@ -39,10 +39,10 @@ class PytketDevice(QubitDevice):
         """Construct a device that use a Pytket Backend and compilation to
         execute circuits.
 
-        :param wires: Number of wires   
+        :param wires: Number of wires
         :type wires: int
-        :param shots: Number of shots to use (only relevant for sampling backends), defaults to 8192
-        :type shots: int, optional
+        :param shots: Number of shots to use (only relevant for sampling backends), defaults to None
+        :type shots: Optional[int], optional
         :param pytket_backend: Pytket Backend class to use, defaults to AerStateBackend()
             to facilitate automated pennylane testing of this backend
         :type pytket_backend: Backend, optional
@@ -53,6 +53,7 @@ class PytketDevice(QubitDevice):
         :type compilation_pass: Optional[BasePass], optional
         :raises ValueError: If the Backend does not support shots or state results
         """
+
         if not (pytket_backend.supports_shots or pytket_backend.supports_state):
             raise ValueError("pytket Backend must support shots or state.")
         self.pytket_backend = pytket_backend
@@ -60,12 +61,12 @@ class PytketDevice(QubitDevice):
             if optimisation_level is None:
                 self.compilation_pass = self.pytket_backend.default_compilation_pass()
             else:
-                self.compilation_pass = self.pytket_backend.default_compilation_pass(optimisation_level)
+                self.compilation_pass = self.pytket_backend.default_compilation_pass(
+                    optimisation_level
+                )
         else:
             self.compilation_pass = compilation_pass
-        super().__init__(
-            wires=wires, shots=shots, analytic=self.pytket_backend.supports_state
-        )
+        super().__init__(wires=wires, shots=shots)
 
     def capabilities(self):
         cap_dic: Dict[str, Any] = super().capabilities().copy()
