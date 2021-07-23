@@ -6,6 +6,7 @@ from pytket.passes import BasePass
 from pennylane import QubitDevice
 
 from pytket.extensions.qiskit import AerStateBackend
+from pytket.extensions.pennylane import __extension_version__
 from pytket.circuit import OpType, Circuit
 
 from .pennylane_convert import (
@@ -21,7 +22,7 @@ class PytketDevice(QubitDevice):
     short_name = "pytket.pytketdevice"
     pennylane_requires = ">=0.14.0"
     version = "0.14.0"
-    plugin_version = "0.1.1"
+    plugin_version = __extension_version__
     author = "KN"
 
     _operation_map = OPERATION_MAP
