@@ -21,7 +21,7 @@ class PytketDevice(QubitDevice):
     short_name = "pytket.pytketdevice"
     pennylane_requires = ">=0.14.0"
     version = "0.14.0"
-    plugin_version = "0.1.0"
+    plugin_version = "0.1.1"
     author = "KN"
 
     _operation_map = OPERATION_MAP
