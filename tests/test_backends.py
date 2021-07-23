@@ -53,7 +53,7 @@ def test_backends():
             shots=100000
         )
 
-        assert dev.compilation_pass.get_config()["name"] == "SequencePass"
+        assert str(dev.compilation_pass) == "<tket::SequencePass>"
         
         test_func = gen_decorated_func(dev)
 
@@ -66,7 +66,7 @@ def test_backends():
         pytket_backend=AerStateBackend(),
         compilation_pass=test_pass()
     )
-    assert dev.compilation_pass.get_config()["name"] == "RebaseHQS"
+    assert str(dev.compilation_pass) == "<tket::BasePass>"
 
     test_func = gen_decorated_func(dev)
     with pytest.raises(CircuitNotValidError):
