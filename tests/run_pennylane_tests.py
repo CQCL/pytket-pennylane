@@ -3,4 +3,4 @@
 
 from pennylane.devices.tests import test_device
 
-test_device("pytket.pytketdevice", pytest_args=["-x", "-s"])
+test_device("pytket.pytketdevice", shots=None, pytest_args=["-x", "-s"])

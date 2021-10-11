@@ -1,16 +1,28 @@
 import platform
+from typing import List
 import numpy as np
 import pytest
 import pennylane as qml
+from pytket.backends.backend import Backend
 from pytket.extensions.qiskit import AerStateBackend, AerBackend
 from pytket.extensions.cirq import CirqStateSampleBackend
 from pytket.extensions.projectq import ProjectQBackend
 
-from pytket.passes import RebaseHQS as test_pass
+from pytket.passes import RebaseHQS as sample_pass
 from pytket.backends.backend_exceptions import CircuitNotValidError
+
+
+TEST_BACKENDS: List[Backend] = [
+    AerStateBackend(),
+    AerBackend(),
+    CirqStateSampleBackend(),
+    ProjectQBackend(),
+]
 
 if platform.system().lower() != "windows":
     from pytket.extensions.qulacs import QulacsBackend
+
+    TEST_BACKENDS.append(QulacsBackend())
 
 
 def my_quantum_function(x, y):
@@ -36,34 +48,26 @@ def my_quantum_function(x, y):
     return qml.expval(qml.PauliZ(1) @ qml.PauliX(0) @ qml.PauliY(2))
 
 
-def test_backends():
-    test_backends = [
-        AerStateBackend(),
-        AerBackend(),
-        CirqStateSampleBackend(),
-        ProjectQBackend(),
-    ]
-    if platform.system().lower() != "windows":
-        test_backends.append(QulacsBackend())
+@pytest.mark.parametrize("test_backend", TEST_BACKENDS)
+def test_backends(test_backend):
 
-    for back in test_backends:
-        print(back)
-        dev = qml.device(
-            "pytket.pytketdevice", wires=3, pytket_backend=back, shots=100000
-        )
+    dev = qml.device(
+        "pytket.pytketdevice", wires=3, pytket_backend=test_backend, shots=100000
+    )
 
-        assert str(dev.compilation_pass) == "<tket::SequencePass>"
+    assert str(dev.compilation_pass) == "<tket::SequencePass>"
 
-        test_func = qml.qnode(dev)(my_quantum_function)
+    test_func = qml.qnode(dev)(my_quantum_function)
 
-        assert np.isclose([test_func(0.6, 0.8)], [0.274], atol=0.01)
+    assert np.isclose([test_func(0.6, 0.8)], [0.274], atol=0.01)
 
-    # check invalid pass fails
+
+def test_invalid_fail():
     dev = qml.device(
         "pytket.pytketdevice",
         wires=3,
         pytket_backend=AerStateBackend(),
-        compilation_pass=test_pass(),
+        compilation_pass=sample_pass(),
     )
     assert str(dev.compilation_pass) == "<tket::BasePass>"
 
