@@ -1,9 +1,9 @@
 from typing import Any, Dict, Optional
 
 import numpy as np
+from pennylane import QubitDevice
 from pytket.backends.backend import Backend
 from pytket.passes import BasePass
-from pennylane import QubitDevice
 
 from pytket.extensions.qiskit import AerStateBackend
 from pytket.extensions.pennylane import __extension_version__
@@ -16,7 +16,8 @@ from .pennylane_convert import (
 
 
 class PytketDevice(QubitDevice):
-    """PytketDevice allows pytket backends and compilation to be used as Pennylane devices."""
+    """PytketDevice allows pytket backends and compilation to be used as Pennylane
+    devices."""
 
     name = "pytket-pennylane plugin"
     short_name = "pytket.pytketdevice"
@@ -42,15 +43,17 @@ class PytketDevice(QubitDevice):
 
         :param wires: Number of wires
         :type wires: int
-        :param shots: Number of shots to use (only relevant for sampling backends), defaults to None
+        :param shots: Number of shots to use (only relevant for sampling backends),
+            defaults to None
         :type shots: Optional[int], optional
-        :param pytket_backend: Pytket Backend class to use, defaults to AerStateBackend()
-            to facilitate automated pennylane testing of this backend
+        :param pytket_backend: Pytket Backend class to use, defaults to
+            AerStateBackend() to facilitate automated pennylane testing of this backend
         :type pytket_backend: Backend, optional
-        :param optimisation_level: Backend default compilation optimisation level, ignored if `compilation_pass` is set,
-         defaults to None
+        :param optimisation_level: Backend default compilation optimisation level,
+            ignored if `compilation_pass` is set, defaults to None
         :type optimisation_level: int, optional
-        :param compilation_pass: Pytket compiler pass with which to compile circuits, defaults to None
+        :param compilation_pass: Pytket compiler pass with which to compile circuits,
+            defaults to None
         :type compilation_pass: Optional[BasePass], optional
         :raises ValueError: If the Backend does not support shots or state results
         """

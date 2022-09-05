@@ -1,9 +1,10 @@
 from typing import List, OrderedDict, cast
 from numpy import pi as PI
-from pytket.circuit import OpType, QubitRegister, BitRegister, Circuit
 from pennylane.operation import Operation
+from pytket.circuit import OpType, QubitRegister, BitRegister, Circuit
 
-# TODO add all pennylane operations https://pennylane.readthedocs.io/en/stable/introduction/operations.html
+# TODO add all pennylane operations
+# https://pennylane.readthedocs.io/en/stable/introduction/operations.html
 PYTKET_OPERATION_MAP = {
     "Hadamard": OpType.H,
     "PauliX": OpType.X,
