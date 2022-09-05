@@ -1,4 +1,3 @@
-import platform
 from typing import List
 import numpy as np
 import pytest
@@ -18,11 +17,6 @@ TEST_BACKENDS: List[Backend] = [
     CirqStateSampleBackend(),
     ProjectQBackend(),
 ]
-
-if platform.system().lower() != "windows":
-    from pytket.extensions.qulacs import QulacsBackend  # type: ignore
-
-    TEST_BACKENDS.append(QulacsBackend())
 
 
 def my_quantum_function(x, y):  # type: ignore
