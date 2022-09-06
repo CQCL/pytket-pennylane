@@ -97,10 +97,10 @@ class PytketDevice(QubitDevice):
         super().reset()
 
     def apply(
-        self, operations: List[Operation], rotations: List[Operation] = []
+        self, operations: List[Operation], rotations: Optional[List[Operation]] = None
     ) -> None:
         self._circuit = pennylane_to_tk(
-            operations + rotations,
+            operations if rotations is None else operations + rotations,
             self._wire_map,
             self._reg,
             self._creg,
