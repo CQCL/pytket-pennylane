@@ -1,13 +1,15 @@
-from typing import Any, Dict, Optional
+from typing import cast, Any, Dict, Iterable, List, Optional, Union
 
 import numpy as np
-from pennylane import QubitDevice
+from pennylane import QubitDevice  # type: ignore
+from pennylane.operation import Operation  # type: ignore
 from pytket.backends.backend import Backend
-from pytket.passes import BasePass
+from pytket.backends.backendresult import BackendResult
+from pytket.passes import BasePass  # type: ignore
 
 from pytket.extensions.qiskit import AerStateBackend
 from pytket.extensions.pennylane import __extension_version__
-from pytket.circuit import OpType, Circuit
+from pytket.circuit import OpType, Circuit  # type: ignore
 
 from .pennylane_convert import (
     OPERATION_MAP,
@@ -72,7 +74,7 @@ class PytketDevice(QubitDevice):
             self.compilation_pass = compilation_pass
         super().__init__(wires=wires, shots=shots)
 
-    def capabilities(self):
+    def capabilities(self) -> Dict[str, Any]:
         cap_dic: Dict[str, Any] = super().capabilities().copy()
         cap_dic.update(
             {
@@ -83,20 +85,20 @@ class PytketDevice(QubitDevice):
         )
         return cap_dic
 
-    def reset(self):
+    def reset(self) -> None:
         # Reset only internal data, not the options that are determined on
         # device creation
         self._circuit = Circuit(name="temp")
         self._reg = self._circuit.add_q_register("q", self.num_wires)
         self._creg = self._circuit.add_c_register("c", self.num_wires)
-        self._backres = None
-        self._state = None  # statevector of a simulator backend
-        self._samples = None
+        self._backres: Optional[BackendResult] = None
+        self._state: Optional[np.ndarray] = None  # statevector of a simulator backend
+        self._samples: Optional[np.ndarray] = None
         super().reset()
 
-    def apply(self, operations, **kwargs):
-        rotations = kwargs.get("rotations", [])
-
+    def apply(
+        self, operations: List[Operation], rotations: List[Operation] = []
+    ) -> None:
         self._circuit = pennylane_to_tk(
             operations + rotations,
             self._wire_map,
@@ -108,12 +110,12 @@ class PytketDevice(QubitDevice):
         compiled_c = self.compile(self._circuit)
         self.run(compiled_c)
 
-    def compile(self, circuit: Circuit):
+    def compile(self, circuit: Circuit) -> Circuit:
         compile_c = circuit.copy()
         self.compilation_pass.apply(compile_c)
         return compile_c
 
-    def run(self, compiled_c: Circuit):
+    def run(self, compiled_c: Circuit) -> None:
         """Run the compiled circuit, and query the result."""
         shots = None
         if self.pytket_backend.supports_shots:
@@ -123,23 +125,27 @@ class PytketDevice(QubitDevice):
         handle = self.pytket_backend.process_circuit(compiled_c, n_shots=shots)
         self._backres = self.pytket_backend.get_result(handle)
 
-    def analytic_probability(self, wires=None):
-        if self.state is None:
-            return None
+    def analytic_probability(
+        self, wires: Optional[Union[int, Iterable[int]]] = None
+    ) -> np.ndarray:
         prob = self.marginal_prob(np.abs(self.state) ** 2, wires)
-        return prob
+        return cast(np.ndarray, prob)
 
-    def generate_samples(self):
+    def generate_samples(self) -> np.ndarray:
         if self.pytket_backend.supports_shots:
+            if self._backres is None:
+                raise RuntimeError("Result does not exist.")
             self._samples = np.asarray(self._backres.get_shots(self._creg), dtype=int)
             return self._samples
         else:
-            return super().generate_samples()
+            return cast(np.ndarray, super().generate_samples())
 
     @property
-    def state(self):
+    def state(self) -> np.ndarray:
         if self.pytket_backend.supports_state:
             if self._state is None:
+                if self._backres is None:
+                    raise RuntimeError("Result does not exist.")
                 self._state = self._backres.get_state(self._reg)
             return self._state
         raise AttributeError("Device does not support state.")

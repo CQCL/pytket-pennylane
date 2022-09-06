@@ -1,7 +1,7 @@
 from typing import List, OrderedDict, cast
 from numpy import pi as PI
-from pennylane.operation import Operation
-from pytket.circuit import OpType, QubitRegister, BitRegister, Circuit
+from pennylane.operation import Operation  # type: ignore
+from pytket.circuit import OpType, QubitRegister, BitRegister, Circuit  # type: ignore
 
 # TODO add all pennylane operations
 # https://pennylane.readthedocs.io/en/stable/introduction/operations.html
@@ -79,7 +79,7 @@ def pennylane_to_tk(
     wire_map: OrderedDict,
     qreg: QubitRegister,
     creg: BitRegister,
-    measure=False,
+    measure: bool = False,
 ) -> Circuit:
     applied_operations = apply_operations(operations, wire_map, qreg)
     circ = Circuit("temp")
