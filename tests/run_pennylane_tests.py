@@ -1,8 +1,7 @@
 # run battery of pennylane tests with default backend
 
-
-from pennylane.devices.tests import test_device  # type: ignore
 import platform
+from pennylane.devices.tests import test_device  # type: ignore
 
 pytest_args = ["-x", "-s"]
 
