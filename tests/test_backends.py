@@ -1,14 +1,13 @@
-import platform
 from typing import List
 import numpy as np
 import pytest
-import pennylane as qml
+import pennylane as qml  # type: ignore
 from pytket.backends.backend import Backend
-from pytket.extensions.qiskit import AerStateBackend, AerBackend
-from pytket.extensions.cirq import CirqStateSampleBackend
-from pytket.extensions.projectq import ProjectQBackend
+from pytket.extensions.qiskit import AerStateBackend, AerBackend  # type: ignore
+from pytket.extensions.cirq import CirqStateSampleBackend  # type: ignore
+from pytket.extensions.projectq import ProjectQBackend  # type: ignore
 
-from pytket.passes import RebaseHQS as sample_pass
+from pytket.passes import SynthesiseHQS as sample_pass  # type: ignore
 from pytket.backends.backend_exceptions import CircuitNotValidError
 
 
@@ -19,13 +18,8 @@ TEST_BACKENDS: List[Backend] = [
     ProjectQBackend(),
 ]
 
-if platform.system().lower() != "windows":
-    from pytket.extensions.qulacs import QulacsBackend
 
-    TEST_BACKENDS.append(QulacsBackend())
-
-
-def my_quantum_function(x, y):
+def my_quantum_function(x, y):  # type: ignore
     qml.RZ(x, wires=0)
     qml.RX(y, wires=1)
     qml.CNOT(wires=[0, 1])
@@ -49,7 +43,7 @@ def my_quantum_function(x, y):
 
 
 @pytest.mark.parametrize("test_backend", TEST_BACKENDS)
-def test_backends(test_backend):
+def test_backends(test_backend: Backend) -> None:
 
     dev = qml.device(
         "pytket.pytketdevice", wires=3, pytket_backend=test_backend, shots=100000
@@ -62,7 +56,7 @@ def test_backends(test_backend):
     assert np.isclose([test_func(0.6, 0.8)], [0.274], atol=0.01)
 
 
-def test_invalid_fail():
+def test_invalid_fail() -> None:
     dev = qml.device(
         "pytket.pytketdevice",
         wires=3,
