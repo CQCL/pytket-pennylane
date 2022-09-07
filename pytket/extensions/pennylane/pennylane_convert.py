@@ -81,6 +81,17 @@ def pennylane_to_tk(
     creg: BitRegister,
     measure: bool = False,
 ) -> Circuit:
+    """
+    Convert a PennyLane circuit to a pytket circuit
+
+    :param      operations: list of operations
+    :param      wire_map:   mapping of qubits
+    :param      qreg:       target qubit register
+    :param      creg:       target bit register
+    :param      measure:    whether to add measurements
+
+    :returns:   pytket circuit
+    """
     applied_operations = apply_operations(operations, wire_map, qreg)
     circ = Circuit("temp")
     circ.add_q_register(qreg)
