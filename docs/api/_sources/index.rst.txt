@@ -1,0 +1,25 @@
+pytket-pennylane
+================
+
+.. image:: CQCLogo.png
+   :width: 120px
+   :align: right
+
+``pytket-pennylane`` is an extension to ``pytket`` that allows ``pytket``
+backends and compilation passes to be used as
+`PennyLane <https://pennylane.ai/>`_ devices.
+
+``pytket-pennylane`` is available for Python 3.8, 3.9 and 3.10, on Linux, MacOS
+and Windows. To install, run:
+
+``pip install pytket-pennylane``
+
+.. toctree::
+    api.rst
+    changelog.rst
+
+.. toctree::
+	:caption: More documentation:
+	:maxdepth: 1
+
+	pytket <https://cqcl.github.io/tket/pytket/api/index.html>
