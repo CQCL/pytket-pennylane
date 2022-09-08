@@ -1,0 +1,47 @@
+#!/bin/bash
+set -evu
+
+# Usage:
+#
+# build-test [mypy|nomypy]
+#
+# Arguments:
+# - mypy: include mypy check ("mypy" or "nomypy")
+#
+# Environment variables used:
+# - GITHUB_WORKSPACE: workspace directory
+
+MYPY=$1
+
+ARTIFACTSDIR=${GITHUB_WORKSPACE}/wheelhouse
+
+rm -rf ${ARTIFACTSDIR} && mkdir ${ARTIFACTSDIR}
+
+python -m pip install --upgrade pip wheel build
+
+# Generate and install the package
+rm -rf dist
+python -m build
+for w in dist/*.whl ; do
+    python -m pip install $w
+    cp $w ${ARTIFACTSDIR}
+done
+
+# Test and mypy:
+if [[ "${MYPY}" = "mypy" ]]
+then
+    python -m pip install mypy
+fi
+
+cd ${GITHUB_WORKSPACE}/tests
+
+python -m pip install -r requirements.txt
+
+pytest --doctest-modules
+
+cd ..
+
+if [[ "${MYPY}" = "mypy" ]]
+then
+    ${GITHUB_WORKSPACE}/mypy-check ${GITHUB_WORKSPACE}
+fi
