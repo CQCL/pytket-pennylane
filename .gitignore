@@ -4,3 +4,4 @@
 *.rtf
 build
 dist
+pytket/extensions/pennylane/_metadata.py

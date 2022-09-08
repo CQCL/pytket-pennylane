@@ -1,9 +1,10 @@
 from typing import List, OrderedDict, cast
 from numpy import pi as PI
-from pytket.circuit import OpType, QubitRegister, BitRegister, Circuit
-from pennylane.operation import Operation
+from pennylane.operation import Operation  # type: ignore
+from pytket.circuit import OpType, QubitRegister, BitRegister, Circuit  # type: ignore
 
-# TODO add all pennylane operations https://pennylane.readthedocs.io/en/stable/introduction/operations.html
+# TODO add all pennylane operations
+# https://pennylane.readthedocs.io/en/stable/introduction/operations.html
 PYTKET_OPERATION_MAP = {
     "Hadamard": OpType.H,
     "PauliX": OpType.X,
@@ -78,8 +79,19 @@ def pennylane_to_tk(
     wire_map: OrderedDict,
     qreg: QubitRegister,
     creg: BitRegister,
-    measure=False,
+    measure: bool = False,
 ) -> Circuit:
+    """
+    Convert a PennyLane circuit to a pytket circuit
+
+    :param      operations: list of operations
+    :param      wire_map:   mapping of qubits
+    :param      qreg:       target qubit register
+    :param      creg:       target bit register
+    :param      measure:    whether to add measurements
+
+    :returns:   pytket circuit
+    """
     applied_operations = apply_operations(operations, wire_map, qreg)
     circ = Circuit("temp")
     circ.add_q_register(qreg)

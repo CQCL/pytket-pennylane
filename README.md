@@ -8,12 +8,12 @@ PennyLane is a package for differentiable programming of quantum computer, which
 to execute circuits on a variety of "devices". This package allows users to easily leverage the 
 differentiablecircuits of PennyLane combined with the compilation available in Pytket.
 
-The package is available for python 3.7 and above and can be installed by cloning and installing from source, or via pip:
+The package is available for python 3.8 and above and can be installed by cloning and installing from source, or via pip:
 ```bash
 pip install pytket-pennylane
 ```
 
-See the PennyLane [documentation](https://pennylane.readthedocs.io) and Pytket [documentation](https://cqcl.github.io/pytket) to get an intro to the packages.
+See the PennyLane [documentation](https://pennylane.readthedocs.io) and Pytket [documentation](https://cqcl.github.io/tket/pytket/api/) to get an intro to the packages.
 
 To use the integration once installed, initialise your pytket backend (in this example, an `AerBackend` which uses Qiskit Aer), and construct a PennyLane `PytketDevice` using this backend:
 
@@ -57,7 +57,7 @@ dev = qml.device(
 )
 ```
 
-You can also use any Pytket [compilation pass](https://cqcl.github.io/pytket/build/html/manual_compiler.html) using the `compilation_pass` parameter, which is used instead of the default pass:
+You can also use any Pytket [compilation pass](https://cqcl.github.io/pytket/manual/manual_compiler.html) using the `compilation_pass` parameter, which is used instead of the default pass:
 
 ```python
 from pytket.passes import PauliSimp, SequencePass
