@@ -13,7 +13,9 @@ The package is available for python 3.8 and above and can be installed by clonin
 pip install pytket-pennylane
 ```
 
-See the PennyLane [documentation](https://pennylane.readthedocs.io) and Pytket [documentation](https://cqcl.github.io/tket/pytket/api/) to get an intro to the packages.
+API documentation is [here](https://cqcl.github.io/pytket-pennylane/api/).
+
+See the PennyLane [documentation](https://pennylane.readthedocs.io) and Pytket [documentation](https://cqcl.github.io/tket/pytket/api/) to get an intro to PennyLane and Pytket.
 
 To use the integration once installed, initialise your pytket backend (in this example, an `AerBackend` which uses Qiskit Aer), and construct a PennyLane `PytketDevice` using this backend:
 

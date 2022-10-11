@@ -1,9 +1,18 @@
 pytket-pennylane
 ================
 
-.. image:: CQCLogo.png
-   :width: 120px
-   :align: right
+.. raw:: html
+
+    <embed>
+    <div style="width:100%; display:flex; align-items:center; justify-content:end; transform: translateY(-85px); margin-bottom: -75px">
+        <img src="_images/Quantinuum_logo.png" width="100" height="100"></img>
+    </div>
+    </embed>
+
+.. image:: Quantinuum_logo.png
+   :width: 0px
+   :height: 0px
+   :align: right 
 
 ``pytket-pennylane`` is an extension to ``pytket`` that allows ``pytket``
 backends and compilation passes to be used as
@@ -12,7 +21,9 @@ backends and compilation passes to be used as
 ``pytket-pennylane`` is available for Python 3.8, 3.9 and 3.10, on Linux, MacOS
 and Windows. To install, run:
 
-``pip install pytket-pennylane``
+::
+
+   pip install pytket-pennylane
 
 .. toctree::
     api.rst
