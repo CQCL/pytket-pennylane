@@ -1,8 +1,8 @@
 from collections import OrderedDict
 from math import pi
+import pennylane as qml
 from pytket.circuit import Circuit, QubitRegister, BitRegister  # type: ignore
 from pytket.extensions.pennylane import pennylane_to_tk
-import pennylane as qml
 
 
 def test_pennylane_to_tk() -> None:
