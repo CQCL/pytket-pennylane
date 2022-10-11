@@ -20,7 +20,11 @@ setup(
     author="KN",
     author_email="seyon.sivarajah@cambridgequantum.com",
     python_requires=">=3.8",
-    url="https://github.com/CQCL/pytket-pennylane",
+    project_urls={
+        "Documentation": "https://cqcl.github.io/pytket-pennylane/api/index.html",
+        "Source": "https://github.com/CQCL/pytket-pennylane",
+        "Tracker": "https://github.com/CQCL/pytket-pennylane/issues",
+    },
     description="Pytket extension and Pennylane plugin.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
