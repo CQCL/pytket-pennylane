@@ -1,11 +1,12 @@
 Changelog
 ~~~~~~~~~
 
-0.6.0 (unreleased)
-------------------
+0.6.0 (December 2022)
+---------------------
 
 * Updated pennylane version requirement to 0.27.
 * Updated pytket-qiskit version requirement to 0.32.
+* Updated pytket version requirement to 1.10.
 
 0.5.0 (November 2022)
 ---------------------
