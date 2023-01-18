@@ -1,8 +1,8 @@
 Changelog
 ~~~~~~~~~
 
-Unreleased
-----------
+0.7.0 (January 2022)
+--------------------
 
 * Support Python 3.11; drop support for 3.8.
 * Updated pennylane version requirement to 0.28.
