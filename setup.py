@@ -19,7 +19,7 @@ setup(
     version=metadata["__extension_version__"],
     author="KN",
     author_email="seyon.sivarajah@cambridgequantum.com",
-    python_requires=">=3.8",
+    python_requires=">=3.9",
     project_urls={
         "Documentation": "https://cqcl.github.io/pytket-pennylane/api/index.html",
         "Source": "https://github.com/CQCL/pytket-pennylane",
@@ -32,15 +32,15 @@ setup(
     packages=find_namespace_packages(include=["pytket.*"]),
     include_package_data=True,
     install_requires=[
-        "pytket ~= 1.10",
-        "pennylane ~= 0.27.0",
+        "pytket ~= 1.11",
+        "pennylane ~= 0.28.0",
         "pytket-qiskit ~= 0.32.0",
     ],
     classifiers=[
         "Environment :: Console",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "License :: Other/Proprietary License",
         "Operating System :: MacOS :: MacOS X",
         "Operating System :: POSIX :: Linux",
