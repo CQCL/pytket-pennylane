@@ -1,7 +1,7 @@
 Changelog
 ~~~~~~~~~
 
-0.7.0 (January 2022)
+0.7.0 (January 2023)
 --------------------
 
 * Support Python 3.11; drop support for 3.8.
