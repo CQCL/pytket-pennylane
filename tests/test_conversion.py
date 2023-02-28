@@ -54,6 +54,6 @@ def test_pennylane_to_tk() -> None:
         ),
     ]
 
-    for ((operations, wire_map, qreg, creg, measure), c) in test_data:
+    for (operations, wire_map, qreg, creg, measure), c in test_data:
         c1 = pennylane_to_tk(operations, wire_map, qreg, creg, measure)
         assert c == c1
