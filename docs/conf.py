@@ -4,7 +4,7 @@
 # See https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 from urllib.parse import urljoin
 
 from docutils import nodes
