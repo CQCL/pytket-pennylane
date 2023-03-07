@@ -33,7 +33,7 @@ setup(
     include_package_data=True,
     install_requires=[
         "pytket ~= 1.11",
-        "pennylane ~= 0.28.0",
+        "pennylane ~= 0.29.1",
         "pytket-qiskit ~= 0.32.0",
     ],
     classifiers=[
