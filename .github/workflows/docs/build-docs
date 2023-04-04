@@ -83,6 +83,8 @@ def build_module_docs():
     for htmlfile in mod_build.rglob("*.html"):
         fix_links(htmlfile)
     fix_links(mod_build / "searchindex.js")
+    logo_copy_black.unlink()
+    logo_copy_white.unlink()
     index_rst.unlink()
 
 
