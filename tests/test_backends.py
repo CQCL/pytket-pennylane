@@ -24,7 +24,7 @@ def my_quantum_function(x, y):  # type: ignore
     qml.RX(y, wires=1)
     qml.CNOT(wires=[0, 1])
     qml.RY(y, wires=1)
-    qml.T(wires=0).inv()
+    qml.adjoint(qml.T(wires=0))
     qml.S(wires=0)
     qml.U1(x, wires=0)
     qml.U2(x, y, wires=0)
