@@ -3,12 +3,13 @@
 # Configuration file for the Sphinx documentation builder.
 # See https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-from urllib.parse import urljoin
 import re
 from typing import Any, Dict, Optional
-from sphinx.application import Sphinx
+from urllib.parse import urljoin
+
 from docutils import nodes
 from docutils.nodes import Element, TextElement
+from sphinx.application import Sphinx
 from sphinx.environment import BuildEnvironment
 
 author = "Cambridge Quantum Computing Ltd"
@@ -18,9 +19,26 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
+    "sphinx_copybutton",
 ]
 
-html_theme = "sphinx_rtd_theme"
+pygments_style = "borland"
+
+html_theme = "sphinx_book_theme"
+
+html_theme_options = {
+    "repository_url": "https://github.com/CQCL/pytket-pennylane",
+    "use_repository_button": True,
+    "use_issues_button": True,
+    "logo": {
+        "image_light": "Quantinuum_logo_black.png",
+        "image_dark": "Quantinuum_logo_white.png",
+    },
+}
+
+html_static_path = ["_static"]
+
+html_css_files = ["custom.css"]
 
 # -- Extension configuration -------------------------------------------------
 
@@ -99,7 +117,6 @@ def correct_signature(
     signature: str,
     return_annotation: str,
 ) -> (str, str):
-
     new_signature = signature
     new_return_annotation = return_annotation
     for k, v in app.config.custom_internal_mapping.items():
