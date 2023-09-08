@@ -3,11 +3,11 @@ import numpy as np
 import pytest
 import pennylane as qml  # type: ignore
 from pytket.backends.backend import Backend
-from pytket.extensions.qiskit import AerStateBackend, AerBackend  # type: ignore
-from pytket.extensions.cirq import CirqStateSampleBackend  # type: ignore
-from pytket.extensions.projectq import ProjectQBackend  # type: ignore
+from pytket.extensions.qiskit import AerStateBackend, AerBackend
+from pytket.extensions.cirq import CirqStateSampleBackend
+from pytket.extensions.projectq import ProjectQBackend
 
-from pytket.passes import SynthesiseHQS as sample_pass  # type: ignore
+from pytket.passes import SynthesiseHQS as sample_pass
 from pytket.backends.backend_exceptions import CircuitNotValidError
 
 
