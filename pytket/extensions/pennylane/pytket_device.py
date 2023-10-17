@@ -5,11 +5,11 @@ from pennylane import QubitDevice  # type: ignore
 from pennylane.operation import Operation  # type: ignore
 from pytket.backends.backend import Backend
 from pytket.backends.backendresult import BackendResult
-from pytket.passes import BasePass  # type: ignore
+from pytket.passes import BasePass
 
 from pytket.extensions.qiskit import AerStateBackend
 from pytket.extensions.pennylane import __extension_version__
-from pytket.circuit import OpType, Circuit  # type: ignore
+from pytket.circuit import OpType, Circuit
 
 from .pennylane_convert import (
     OPERATION_MAP,
@@ -135,7 +135,9 @@ class PytketDevice(QubitDevice):
         if self.pytket_backend.supports_shots:
             if self._backres is None:
                 raise RuntimeError("Result does not exist.")
-            self._samples = np.asarray(self._backres.get_shots(self._creg), dtype=int)
+            self._samples = np.asarray(
+                self._backres.get_shots(self._creg.to_list()), dtype=int
+            )
             return self._samples
         else:
             return cast(np.ndarray, super().generate_samples())
@@ -146,6 +148,6 @@ class PytketDevice(QubitDevice):
             if self._state is None:
                 if self._backres is None:
                     raise RuntimeError("Result does not exist.")
-                self._state = self._backres.get_state(self._reg)
+                self._state = self._backres.get_state(self._reg.to_list())
             return self._state
         raise AttributeError("Device does not support state.")

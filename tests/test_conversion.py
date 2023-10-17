@@ -3,7 +3,7 @@ from math import pi
 from typing import List, Tuple
 import pennylane as qml  # type: ignore
 from pennylane.operation import Operation  # type: ignore
-from pytket.circuit import Circuit, QubitRegister, BitRegister  # type: ignore
+from pytket.circuit import Circuit, QubitRegister, BitRegister
 from pytket.extensions.pennylane import pennylane_to_tk
 
 
