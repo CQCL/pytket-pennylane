@@ -1,11 +1,30 @@
 Changelog
 ~~~~~~~~~
 
-Unreleased
-----------
+0.11.0 (September 2023)
+-----------------------
 
+* Updated pytket version requirement to 1.19.
+* Updated pennylane version requirement to 0.32.
+* Updated pytket-qiskit version requirement to 0.44.
+
+0.10.0 (August 2023)
+--------------------
+
+* Updated pytket version requirement to 1.18.
+* Updated pennylane version requirement to 0.31.
+* Updated pytket-qiskit version requirement to 0.41.
+
+0.9.0 (June 2023)
+-----------------
+
+* Updated pytket version requirement to 1.16.
+
+0.8.0 (May 2023)
+----------------
+
+* Updated pytket version requirement to 1.15.
 * Updated pennylane version requirement to 0.30.
-* Updated pytket version requirement to 1.14.
 
 0.7.0 (January 2023)
 --------------------

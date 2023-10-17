@@ -1,7 +1,7 @@
 from typing import List, OrderedDict, cast
 from numpy import pi as PI
 from pennylane.operation import Operation  # type: ignore
-from pytket.circuit import OpType, QubitRegister, BitRegister, Circuit  # type: ignore
+from pytket.circuit import OpType, QubitRegister, BitRegister, Circuit
 
 # TODO add all pennylane operations
 # https://pennylane.readthedocs.io/en/stable/introduction/operations.html
@@ -62,7 +62,7 @@ def apply_operations(
         invert = operation.endswith(".inv")
 
         new_c = Circuit()
-        for q in qreg:
+        for q in qreg.to_list():
             new_c.add_qubit(q)
 
         new_c.add_gate(mapped_operation, [p / PI for p in par], qregs)
@@ -101,7 +101,7 @@ def pennylane_to_tk(
 
     if measure:
         # Add measurements if they are needed
-        for qr, cr in zip(qreg, creg):
+        for qr, cr in zip(qreg.to_list(), creg.to_list()):
             circ.Measure(qr, cr)
 
     return circ

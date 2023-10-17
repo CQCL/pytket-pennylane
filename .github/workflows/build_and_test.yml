@@ -26,7 +26,7 @@ jobs:
         os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* +refs/heads/*:refs/remotes/origin/*
     - name: Set up Python 3.9
       if: github.event_name == 'push' || github.event_name == 'schedule'
@@ -104,7 +104,7 @@ jobs:
     needs: publish_to_pypi
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: '0'
     - name: Set up Python 3.10
@@ -129,7 +129,7 @@ jobs:
         mkdir extensions
         ./build-docs -d ${GITHUB_WORKSPACE}/.github/workflows/docs/extensions/api
     - name: Upload docs as artefact
-      uses: actions/upload-pages-artifact@v1
+      uses: actions/upload-pages-artifact@v2
       with:
         path: .github/workflows/docs/extensions
 
