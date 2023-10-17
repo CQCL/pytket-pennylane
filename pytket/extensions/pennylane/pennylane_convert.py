@@ -65,7 +65,7 @@ def apply_operations(
         for q in qreg.to_list():
             new_c.add_qubit(q)
 
-        new_c.add_gate(mapped_operation, [p / PI for p in par], qregs)  # type: ignore
+        new_c.add_gate(mapped_operation, [p / PI for p in par], qregs)
         if invert:
             new_c = new_c.dagger()
 
