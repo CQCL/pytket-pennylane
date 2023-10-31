@@ -33,8 +33,8 @@ setup(
     include_package_data=True,
     install_requires=[
         "pytket ~= 1.21",
-        "pennylane ~= 0.32.0",
-        "pytket-qiskit ~= 0.44.0",
+        "pennylane >= 0.32,< 0.34",
+        "pytket-qiskit >= 0.44,< 0.46",
     ],
     classifiers=[
         "Environment :: Console",
