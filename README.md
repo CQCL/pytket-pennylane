@@ -1,5 +1,5 @@
 # pytket-pennylane
-[Pytket](https://cqcl.github.io/pytket) extension and [PennyLane](https://github.com/PennyLaneAI/pennylane) plugin which allows pytket backends and compilation to be used as a PennyLane device.
+[Pytket](https://tket.quantinuum.com/) extension and [PennyLane](https://github.com/PennyLaneAI/pennylane) plugin which allows pytket backends and compilation to be used as a PennyLane device.
 
 
 Pytket is a quantum SDK python package which provides state of the art compilation for quantum
@@ -15,9 +15,9 @@ cloning and installing from source, or via pip:
 pip install pytket-pennylane
 ```
 
-API documentation is [here](https://cqcl.github.io/pytket-pennylane/api/).
+API documentation is [here](https://tket.quantinuum.com/extensions/pytket-pennylane/api/).
 
-See the PennyLane [documentation](https://pennylane.readthedocs.io) and Pytket [documentation](https://cqcl.github.io/tket/pytket/api/) to get an intro to PennyLane and Pytket.
+See the PennyLane [documentation](https://pennylane.readthedocs.io) and Pytket [documentation](https://tket.quantinuum.com/api-docs/) to get an intro to PennyLane and Pytket.
 
 To use the integration once installed, initialise your pytket backend (in this example, an `AerBackend` which uses Qiskit Aer), and construct a PennyLane `PytketDevice` using this backend:
 
@@ -61,7 +61,7 @@ dev = qml.device(
 )
 ```
 
-You can also use any Pytket [compilation pass](https://cqcl.github.io/pytket/manual/manual_compiler.html) using the `compilation_pass` parameter, which is used instead of the default pass:
+You can also use any Pytket [compilation pass](https://tket.quantinuum.com/user-manual/manual_compiler.html) using the `compilation_pass` parameter, which is used instead of the default pass:
 
 ```python
 from pytket.passes import PauliSimp, SequencePass
