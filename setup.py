@@ -21,7 +21,7 @@ setup(
     author_email="seyon.sivarajah@cambridgequantum.com",
     python_requires=">=3.9",
     project_urls={
-        "Documentation": "https://cqcl.github.io/pytket-pennylane/api/index.html",
+        "Documentation": "https://tket.quantinuum.com/extensions/pytket-pennylane/api/index.html",
         "Source": "https://github.com/CQCL/pytket-pennylane",
         "Tracker": "https://github.com/CQCL/pytket-pennylane/issues",
     },
