@@ -53,7 +53,7 @@ def build_module_docs():
             "\n.. toctree::\n\t:caption: More documentation:\n\t:maxdepth: 1\n\n"
         )
         content.append(f"\tTKET website <{TKET_WEBSITE_LINK}>\n")
-        content.append("\tpytket <{PYTKET_DOCS_LINK}>PYTKET_DOCS_LINK\n")
+        content.append("\tpytket <{PYTKET_DOCS_LINK}>\n")
         content.append(f"\tpytket extensions <{PYTKET_EX_DOCS_LINK}>\n")
         content.append(
             "\n.. toctree::\n\t:caption: Links:\n\t:maxdepth: 1\n\n"
