@@ -11,7 +11,7 @@ differentiablecircuits of PennyLane combined with the compilation available in P
 The package is available for python 3.9, 3.10 and 3.11, and can be installed by
 cloning and installing from source, or via pip:
 
-```bash
+```shell
 pip install pytket-pennylane
 ```
 
