@@ -32,7 +32,7 @@ setup(
     packages=find_namespace_packages(include=["pytket.*"]),
     include_package_data=True,
     install_requires=[
-        "pytket ~= 1.21",
+        "pytket ~= 1.22",
         "pennylane >= 0.32,< 0.34",
         "pytket-qiskit >= 0.44,< 0.46",
     ],
