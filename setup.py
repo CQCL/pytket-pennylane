@@ -21,7 +21,7 @@ setup(
     author_email="seyon.sivarajah@cambridgequantum.com",
     python_requires=">=3.9",
     project_urls={
-        "Documentation": "https://cqcl.github.io/pytket-pennylane/api/index.html",
+        "Documentation": "https://tket.quantinuum.com/extensions/pytket-pennylane/api/index.html",
         "Source": "https://github.com/CQCL/pytket-pennylane",
         "Tracker": "https://github.com/CQCL/pytket-pennylane/issues",
     },
@@ -32,9 +32,9 @@ setup(
     packages=find_namespace_packages(include=["pytket.*"]),
     include_package_data=True,
     install_requires=[
-        "pytket ~= 1.21",
-        "pennylane ~= 0.32.0",
-        "pytket-qiskit ~= 0.44.0",
+        "pytket ~= 1.22",
+        "pennylane >= 0.32,< 0.34",
+        "pytket-qiskit >= 0.44,< 0.46",
     ],
     classifiers=[
         "Environment :: Console",
