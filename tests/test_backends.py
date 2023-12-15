@@ -7,7 +7,7 @@ from pytket.extensions.qiskit import AerStateBackend, AerBackend
 from pytket.extensions.cirq import CirqStateSampleBackend
 from pytket.extensions.projectq import ProjectQBackend
 
-from pytket.passes import SynthesiseHQS as sample_pass
+from pytket.passes import SynthesiseTK as sample_pass
 from pytket.backends.backend_exceptions import CircuitNotValidError
 
 
