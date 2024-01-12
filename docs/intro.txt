@@ -5,7 +5,7 @@ pytket-pennylane
 backends and compilation passes to be used as
 `PennyLane <https://pennylane.ai/>`_ devices.
 
-``pytket-pennylane`` is available for Python 3.9, 3.10 and 3.11, on Linux, MacOS
+``pytket-pennylane`` is available for Python 3.10, 3.11 and 3.12, on Linux, MacOS
 and Windows. To install, run:
 
 ::
