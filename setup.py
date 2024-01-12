@@ -1,3 +1,16 @@
+# Copyright 2020-2024 Cambridge Quantum Computing
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 import shutil
 import os
 from setuptools import setup, find_namespace_packages  # type: ignore
@@ -21,7 +34,7 @@ setup(
     author_email="seyon.sivarajah@cambridgequantum.com",
     python_requires=">=3.9",
     project_urls={
-        "Documentation": "https://tket.quantinuum.com/extensions/pytket-pennylane/api/index.html",
+        "Documentation": "https://tket.quantinuum.com/extensions/pytket-pennylane/index.html",
         "Source": "https://github.com/CQCL/pytket-pennylane",
         "Tracker": "https://github.com/CQCL/pytket-pennylane/issues",
     },
@@ -32,9 +45,9 @@ setup(
     packages=find_namespace_packages(include=["pytket.*"]),
     include_package_data=True,
     install_requires=[
-        "pytket ~= 1.22",
-        "pennylane >= 0.32,< 0.34",
-        "pytket-qiskit >= 0.44,< 0.46",
+        "pytket ~= 1.23",
+        "pennylane ~= 0.34.0",
+        "pytket-qiskit >= 0.46,< 0.48",
     ],
     classifiers=[
         "Environment :: Console",
