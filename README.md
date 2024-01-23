@@ -8,7 +8,7 @@ PennyLane is a package for differentiable programming of quantum computer, which
 to execute circuits on a variety of "devices". This package allows users to easily leverage the 
 differentiablecircuits of PennyLane combined with the compilation available in Pytket.
 
-The package is available for python 3.9, 3.10 and 3.11, and can be installed by
+The package is available for python 3.10, 3.11 and 3.12, and can be installed by
 cloning and installing from source, or via pip:
 
 ```shell
