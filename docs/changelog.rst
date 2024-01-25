@@ -1,6 +1,11 @@
 Changelog
 ~~~~~~~~~
 
+unreleased
+----------
+
+* Updated pytket-qiskit version requirement to 0.48.
+
 0.15.0 (January 2024)
 ---------------------
 
