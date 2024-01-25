@@ -47,7 +47,7 @@ setup(
     install_requires=[
         "pytket ~= 1.24",
         "pennylane ~= 0.34.0",
-        "pytket-qiskit >= 0.46,< 0.49",
+        "pytket-qiskit ~= 0.49.0"
     ],
     classifiers=[
         "Environment :: Console",
