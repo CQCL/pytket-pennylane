@@ -4,7 +4,8 @@ Changelog
 unreleased
 ----------
 
-* Updated pytket-qiskit version requirement to 0.48.
+* Updated pytket-qiskit version requirement to 0.50.
+* Updated pennylane version requirement to 0.35.
 
 0.15.0 (January 2024)
 ---------------------
