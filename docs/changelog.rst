@@ -1,9 +1,10 @@
 Changelog
 ~~~~~~~~~
 
-unreleased
-----------
+0.16.0 (March 2024)
+-------------------
 
+* Updated pytket version requirement to 1.26.
 * Updated pytket-qiskit version requirement to 0.50.
 * Updated pennylane version requirement to 0.35.
 
