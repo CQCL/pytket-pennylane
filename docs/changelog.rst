@@ -1,6 +1,12 @@
 Changelog
 ~~~~~~~~~
 
+0.17.0 (April 2024)
+-------------------
+
+* Updated pytket version requirement to 1.27.
+* Updated pytket-qiskit version requirement to 0.51.
+
 0.16.0 (March 2024)
 -------------------
 

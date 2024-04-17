@@ -12,7 +12,7 @@ from docutils.nodes import Element, TextElement
 from sphinx.application import Sphinx
 from sphinx.environment import BuildEnvironment
 
-author = "Cambridge Quantum Computing Ltd"
+author = "Quantinuum"
 
 extensions = [
     "sphinx.ext.autodoc",
