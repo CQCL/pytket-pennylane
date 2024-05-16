@@ -1,5 +1,6 @@
 from typing import List
-import numpy as np
+
+# import numpy as np
 import pytest
 import pennylane as qml  # type: ignore
 from pytket.backends.backend import Backend
@@ -8,7 +9,8 @@ from pytket.extensions.cirq import CirqStateSampleBackend
 from pytket.extensions.projectq import ProjectQBackend
 
 from pytket.passes import SynthesiseTK as sample_pass
-from pytket.backends.backend_exceptions import CircuitNotValidError
+
+# from pytket.backends.backend_exceptions import CircuitNotValidError
 
 
 TEST_BACKENDS: List[Backend] = [
