@@ -50,7 +50,7 @@ def test_backends(test_backend: Backend) -> None:
 
     assert str(dev.compilation_pass) == "<tket::SequencePass>"
 
-    # TODO add link to issue
+    # https://github.com/CQCL/pytket-pennylane/issues/118
     # test_func = qml.qnode(dev)(my_quantum_function)
     # assert np.isclose([test_func(0.6, 0.8)], [0.274], atol=0.01)
 
@@ -63,8 +63,8 @@ def test_invalid_fail() -> None:
         compilation_pass=sample_pass(),
     )
     assert str(dev.compilation_pass) == "<tket::BasePass>"
-    
-    # TODO add link to issue
+
+    # https://github.com/CQCL/pytket-pennylane/issues/118
     # test_func = qml.qnode(dev)(my_quantum_function)
     # with pytest.raises(CircuitNotValidError):
     #     assert np.isclose([test_func(0.3, 0.2)], [0.084], rtol=0.05)
