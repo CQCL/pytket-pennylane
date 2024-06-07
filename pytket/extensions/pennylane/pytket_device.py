@@ -43,7 +43,7 @@ class PytketDevice(QubitDevice):
 
     _operation_map = OPERATION_MAP
     operations = set(_operation_map.keys())
-    observables = {"PauliX", "PauliY", "PauliZ", "Identity", "Hadamard"}
+    observables = {"PauliX", "PauliY", "PauliZ", "Identity", "Hadamard", "Prod"}
 
     def __init__(
         self,
