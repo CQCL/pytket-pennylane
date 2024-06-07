@@ -36,8 +36,8 @@ class PytketDevice(QubitDevice):
 
     name = "pytket-pennylane plugin"
     short_name = "pytket.pytketdevice"
-    pennylane_requires = ">=0.14.0"
-    version = "0.14.0"
+    pennylane_requires = ">=0.35.0"
+    version = "0.15.0"
     plugin_version = __extension_version__
     author = "KN"
 
