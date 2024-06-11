@@ -1,6 +1,11 @@
 Changelog
 ~~~~~~~~~
 
+Unreleased
+----------
+
+* Add support for observable "Prod".
+
 0.17.0 (April 2024)
 -------------------
 

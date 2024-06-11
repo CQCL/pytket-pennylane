@@ -36,14 +36,14 @@ class PytketDevice(QubitDevice):
 
     name = "pytket-pennylane plugin"
     short_name = "pytket.pytketdevice"
-    pennylane_requires = ">=0.14.0"
-    version = "0.14.0"
+    pennylane_requires = ">=0.35.0"
+    version = "0.15.0"
     plugin_version = __extension_version__
     author = "KN"
 
     _operation_map = OPERATION_MAP
     operations = set(_operation_map.keys())
-    observables = {"PauliX", "PauliY", "PauliZ", "Identity", "Hadamard"}
+    observables = {"PauliX", "PauliY", "PauliZ", "Identity", "Hadamard", "Prod"}
 
     def __init__(
         self,
