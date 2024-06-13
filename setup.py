@@ -45,9 +45,9 @@ setup(
     packages=find_namespace_packages(include=["pytket.*"]),
     include_package_data=True,
     install_requires=[
-        "pytket ~= 1.27",
-        "pennylane ~= 0.35",
-        "pytket-qiskit ~= 0.51",
+        "pytket ~= 1.28",
+        "pennylane ~= 0.36",
+        "pytket-qiskit ~= 0.53",
     ],
     classifiers=[
         "Environment :: Console",
