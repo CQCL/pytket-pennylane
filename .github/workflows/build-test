@@ -37,8 +37,8 @@ cd ${GITHUB_WORKSPACE}/tests
 
 python -m pip install -r requirements.txt
 
-# update the pytket version to the lastest (pre) release
-python -m pip install --upgrade --pre pytket~=1.0
+# # update the pytket version to the lastest (pre) release
+# python -m pip install --upgrade --pre pytket~=1.0
 
 pytest
 
