@@ -5,9 +5,7 @@ Unreleased
 ----------
 
 * Add support for observable "Prod".
-* Updated pytket version requirement to 1.28.
-* Updated pennylane version requirement to 0.36.
-* Updated pytket-qiskit version requirement to 0.53.
+* Updated dependencies, removing upper bounds on versions.
 
 
 0.17.0 (April 2024)
