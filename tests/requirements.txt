@@ -2,4 +2,3 @@ flaky
 pytest
 pytest-mock
 pytket-cirq~=0.36.0
-pytket-projectq~=0.35.0
