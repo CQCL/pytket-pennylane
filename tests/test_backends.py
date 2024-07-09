@@ -5,7 +5,6 @@ import pennylane as qml  # type: ignore
 from pytket.backends.backend import Backend
 from pytket.extensions.qiskit import AerStateBackend, AerBackend
 from pytket.extensions.cirq import CirqStateSampleBackend
-from pytket.extensions.projectq import ProjectQBackend
 
 from pytket.passes import SynthesiseTK as sample_pass
 from pytket.backends.backend_exceptions import CircuitNotValidError
@@ -15,7 +14,6 @@ TEST_BACKENDS: List[Backend] = [
     AerStateBackend(),
     AerBackend(),
     CirqStateSampleBackend(),
-    ProjectQBackend(),
 ]
 
 
