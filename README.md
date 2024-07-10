@@ -1,6 +1,9 @@
 # pytket-pennylane
-[Pytket](https://tket.quantinuum.com/) extension and [PennyLane](https://github.com/PennyLaneAI/pennylane) plugin which allows pytket backends and compilation to be used as a PennyLane device.
 
+[![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)](https://tketusers.slack.com/join/shared_invite/zt-18qmsamj9-UqQFVdkRzxnXCcKtcarLRA#)
+[![Stack Exchange](https://img.shields.io/badge/StackExchange-%23ffffff.svg?style=for-the-badge&logo=StackExchange)](https://quantumcomputing.stackexchange.com/tags/pytket)
+
+[Pytket](https://tket.quantinuum.com/) extension and [PennyLane](https://github.com/PennyLaneAI/pennylane) plugin which allows pytket backends and compilation to be used as a PennyLane device.
 
 Pytket is a quantum SDK python package which provides state of the art compilation for quantum
 circuits and a unified interface for execution on a number of "backends" (devices and simulators).
