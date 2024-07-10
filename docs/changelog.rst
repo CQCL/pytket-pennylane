@@ -1,9 +1,10 @@
 Changelog
 ~~~~~~~~~
 
-Unreleased
-----------
+0.18.0 (July 2024)
+------------------
 
+* Updated pytket version requirement to 1.30.
 * Add support for observable "Prod".
 * Updated dependencies, removing upper bounds on versions.
 
