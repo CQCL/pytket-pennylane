@@ -5,3 +5,6 @@
 build
 dist
 pytket/extensions/pennylane/_metadata.py
+.DS_Store
+docs/pyproject.toml
+docs/poetry.lock
