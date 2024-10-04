@@ -11,8 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 import os
 import shutil
+from pathlib import Path
 
 from setuptools import find_namespace_packages, setup  # type: ignore
 
@@ -40,7 +42,7 @@ setup(
         "Tracker": "https://github.com/CQCL/pytket-pennylane/issues",
     },
     description="Pytket extension and Pennylane plugin.",
-    long_description=open("README.md").read(),
+    long_description=(Path(__file__).parent / "README.md").read_text(),
     long_description_content_type="text/markdown",
     license="Apache 2",
     packages=find_namespace_packages(include=["pytket.*"]),
