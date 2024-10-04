@@ -1,5 +1,12 @@
+.. currentmodule:: pytket.extensions.pennylane
+
 Changelog
 ~~~~~~~~~
+
+0.19.0 (October 2024)
+---------------------
+
+* Updated pytket version requirement to 1.33.
 
 0.18.0 (July 2024)
 ------------------
