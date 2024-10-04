@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from collections import OrderedDict
-from typing import List, cast
+from typing import cast
 
 from numpy import pi as PI
 
@@ -48,8 +48,8 @@ OPERATION_MAP = {**PYTKET_OPERATION_MAP, **PYTKET_OPERATION_INVERSES_MAP}
 
 
 def apply_operations(
-    operations: List[Operation], wire_map: OrderedDict, qreg: QubitRegister
-) -> List[Circuit]:
+    operations: list[Operation], wire_map: OrderedDict, qreg: QubitRegister
+) -> list[Circuit]:
     """Apply the circuit operations.
 
     This method serves as an auxiliary method to :meth:`~.PytketDevice.apply`.
@@ -66,7 +66,7 @@ def apply_operations(
     for operation in operations:
         # Apply the circuit operations
         device_wires = operation.wires.map(wire_map)
-        par = cast(List[float], operation.parameters)
+        par = cast(list[float], operation.parameters)
         operation = operation.name
 
         mapped_operation = OPERATION_MAP[operation]
@@ -91,7 +91,7 @@ def apply_operations(
 
 
 def pennylane_to_tk(
-    operations: List[Operation],
+    operations: list[Operation],
     wire_map: OrderedDict,
     qreg: QubitRegister,
     creg: BitRegister,

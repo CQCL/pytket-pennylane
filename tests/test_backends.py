@@ -1,5 +1,3 @@
-from typing import List
-
 import numpy as np
 import pennylane as qml  # type: ignore
 import pytest
@@ -10,7 +8,7 @@ from pytket.extensions.cirq import CirqStateSampleBackend
 from pytket.extensions.qiskit import AerBackend, AerStateBackend
 from pytket.passes import SynthesiseTK as sample_pass
 
-TEST_BACKENDS: List[Backend] = [
+TEST_BACKENDS: list[Backend] = [
     AerStateBackend(),
     AerBackend(),
     CirqStateSampleBackend(),

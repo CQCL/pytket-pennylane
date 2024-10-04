@@ -12,14 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from collections.abc import Iterable
-from typing import Any, Dict, List, Optional, Union, cast
+from typing import TYPE_CHECKING, Any, Optional, Union, cast
 
 import numpy as np
 
 from pennylane import QubitDevice  # type: ignore
 from pennylane.operation import Operation  # type: ignore
 from pytket.backends.backend import Backend
-from pytket.backends.backendresult import BackendResult
 from pytket.circuit import Circuit, OpType
 from pytket.extensions.pennylane import __extension_version__
 from pytket.extensions.qiskit import AerStateBackend
@@ -29,6 +28,9 @@ from .pennylane_convert import (
     OPERATION_MAP,
     pennylane_to_tk,
 )
+
+if TYPE_CHECKING:
+    from pytket.backends.backendresult import BackendResult
 
 
 class PytketDevice(QubitDevice):
@@ -88,8 +90,8 @@ class PytketDevice(QubitDevice):
             self.compilation_pass = compilation_pass
         super().__init__(wires=wires, shots=shots)
 
-    def capabilities(self) -> Dict[str, Any]:
-        cap_dic: Dict[str, Any] = super().capabilities().copy()
+    def capabilities(self) -> dict[str, Any]:
+        cap_dic: dict[str, Any] = super().capabilities().copy()
         cap_dic.update(
             {
                 "supports_finite_shots": self.pytket_backend.supports_shots,
@@ -111,7 +113,7 @@ class PytketDevice(QubitDevice):
         super().reset()
 
     def apply(
-        self, operations: List[Operation], rotations: Optional[List[Operation]] = None
+        self, operations: list[Operation], rotations: Optional[list[Operation]] = None
     ) -> None:
         self._circuit = pennylane_to_tk(
             operations if rotations is None else operations + rotations,
