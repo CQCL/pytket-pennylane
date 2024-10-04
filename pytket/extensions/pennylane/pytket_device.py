@@ -11,18 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from typing import cast, Any, Dict, Iterable, List, Optional, Union
+from collections.abc import Iterable
+from typing import Any, Dict, List, Optional, Union, cast
 
 import numpy as np
+
 from pennylane import QubitDevice  # type: ignore
 from pennylane.operation import Operation  # type: ignore
 from pytket.backends.backend import Backend
 from pytket.backends.backendresult import BackendResult
-from pytket.passes import BasePass
-
-from pytket.extensions.qiskit import AerStateBackend
+from pytket.circuit import Circuit, OpType
 from pytket.extensions.pennylane import __extension_version__
-from pytket.circuit import OpType, Circuit
+from pytket.extensions.qiskit import AerStateBackend
+from pytket.passes import BasePass
 
 from .pennylane_convert import (
     OPERATION_MAP,

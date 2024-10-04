@@ -11,10 +11,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from typing import List, OrderedDict, cast
+from collections import OrderedDict
+from typing import List, cast
+
 from numpy import pi as PI
+
 from pennylane.operation import Operation  # type: ignore
-from pytket.circuit import OpType, QubitRegister, BitRegister, Circuit
+from pytket.circuit import BitRegister, Circuit, OpType, QubitRegister
 
 # TODO add all pennylane operations
 # https://pennylane.readthedocs.io/en/stable/introduction/operations.html
