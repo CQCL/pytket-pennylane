@@ -11,6 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from ._metadata import __extension_version__, __extension_name__
-from .pytket_device import PytketDevice
+from ._metadata import __extension_name__, __extension_version__
 from .pennylane_convert import pennylane_to_tk
+from .pytket_device import PytketDevice
