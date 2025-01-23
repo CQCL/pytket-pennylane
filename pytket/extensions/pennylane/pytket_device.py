@@ -14,7 +14,7 @@
 from typing import cast, Any, Dict, Iterable, List, Optional, Union
 
 import numpy as np
-from pennylane import QubitDevice  # type: ignore
+from pennylane.devices import QubitDevice  # type: ignore
 from pennylane.operation import Operation  # type: ignore
 from pytket.backends.backend import Backend
 from pytket.backends.backendresult import BackendResult
