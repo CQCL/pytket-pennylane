@@ -14,7 +14,7 @@
 from typing import cast, Any, Dict, Iterable, List, Optional, Union
 
 import numpy as np
-from pennylane import QubitDevice  # type: ignore
+from pennylane.devices import QubitDevice  # type: ignore
 from pennylane.operation import Operation  # type: ignore
 from pytket.backends.backend import Backend
 from pytket.backends.backendresult import BackendResult
@@ -36,7 +36,7 @@ class PytketDevice(QubitDevice):
 
     name = "pytket-pennylane plugin"
     short_name = "pytket.pytketdevice"
-    pennylane_requires = ">=0.35.0"
+    pennylane_requires = ">=0.40.0"
     version = "0.15.0"
     plugin_version = __extension_version__
     author = "KN"
