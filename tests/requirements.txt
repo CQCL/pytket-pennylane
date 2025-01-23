@@ -1,4 +1,4 @@
 flaky
 pytest
 pytest-mock
-pytket-cirq~=0.39.0
+pytket-cirq
