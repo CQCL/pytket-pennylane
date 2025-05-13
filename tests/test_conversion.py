@@ -1,16 +1,17 @@
 from collections import OrderedDict
 from math import pi
-from typing import List, Tuple
+
 import pennylane as qml  # type: ignore
-from pennylane.operation import Operation  # type: ignore
-from pytket.circuit import Circuit, QubitRegister, BitRegister
+from pennylane.operation import Operation  # type: ignore  # noqa: TC002
+
+from pytket.circuit import BitRegister, Circuit, QubitRegister
 from pytket.extensions.pennylane import pennylane_to_tk
 
 
 def test_pennylane_to_tk() -> None:
-    test_data: List[
-        Tuple[
-            Tuple[List[Operation], OrderedDict, QubitRegister, BitRegister, bool],
+    test_data: list[
+        tuple[
+            tuple[list[Operation], OrderedDict, QubitRegister, BitRegister, bool],
             Circuit,
         ]
     ] = [

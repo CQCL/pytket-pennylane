@@ -11,9 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import shutil
 import os
-from setuptools import setup, find_namespace_packages  # type: ignore
+import shutil
+
+from setuptools import find_namespace_packages, setup  # type: ignore
 
 metadata: dict = {}
 with open("_metadata.py") as fp:
@@ -39,7 +40,7 @@ setup(
         "Tracker": "https://github.com/CQCL/pytket-pennylane/issues",
     },
     description="Pytket extension and Pennylane plugin.",
-    long_description=open("README.md").read(),
+    long_description=open("README.md").read(),  # noqa: SIM115
     long_description_content_type="text/markdown",
     license="Apache 2",
     packages=find_namespace_packages(include=["pytket.*"]),
