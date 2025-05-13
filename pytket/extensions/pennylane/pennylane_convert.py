@@ -11,10 +11,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from typing import List, OrderedDict, cast
+from collections import OrderedDict
+from typing import cast
+
 from numpy import pi as PI
+
 from pennylane.operation import Operation  # type: ignore
-from pytket.circuit import OpType, QubitRegister, BitRegister, Circuit
+from pytket.circuit import BitRegister, Circuit, OpType, QubitRegister
 
 # TODO add all pennylane operations
 # https://pennylane.readthedocs.io/en/stable/introduction/operations.html
@@ -45,8 +48,8 @@ OPERATION_MAP = {**PYTKET_OPERATION_MAP, **PYTKET_OPERATION_INVERSES_MAP}
 
 
 def apply_operations(
-    operations: List[Operation], wire_map: OrderedDict, qreg: QubitRegister
-) -> List[Circuit]:
+    operations: list[Operation], wire_map: OrderedDict, qreg: QubitRegister
+) -> list[Circuit]:
     """Apply the circuit operations.
 
     This method serves as an auxiliary method to :meth:`~.PytketDevice.apply`.
@@ -63,8 +66,8 @@ def apply_operations(
     for operation in operations:
         # Apply the circuit operations
         device_wires = operation.wires.map(wire_map)
-        par = cast(List[float], operation.parameters)
-        operation = operation.name
+        par = cast("list[float]", operation.parameters)
+        operation = operation.name  # noqa: PLW2901
 
         mapped_operation = OPERATION_MAP[operation]
 
@@ -88,7 +91,7 @@ def apply_operations(
 
 
 def pennylane_to_tk(
-    operations: List[Operation],
+    operations: list[Operation],
     wire_map: OrderedDict,
     qreg: QubitRegister,
     creg: BitRegister,
@@ -114,7 +117,7 @@ def pennylane_to_tk(
 
     if measure:
         # Add measurements if they are needed
-        for qr, cr in zip(qreg.to_list(), creg.to_list()):
+        for qr, cr in zip(qreg.to_list(), creg.to_list(), strict=False):
             circ.Measure(qr, cr)
 
     return circ

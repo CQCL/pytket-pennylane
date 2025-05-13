@@ -11,18 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from typing import cast, Any, Dict, Iterable, List, Optional, Union
+from collections.abc import Iterable
+from typing import Any, cast
 
 import numpy as np
+
 from pennylane.devices import QubitDevice  # type: ignore
 from pennylane.operation import Operation  # type: ignore
 from pytket.backends.backend import Backend
-from pytket.backends.backendresult import BackendResult
-from pytket.passes import BasePass
-
-from pytket.extensions.qiskit import AerStateBackend
+from pytket.backends.backendresult import BackendResult  # noqa: TC001
+from pytket.circuit import Circuit, OpType
 from pytket.extensions.pennylane import __extension_version__
-from pytket.circuit import OpType, Circuit
+from pytket.extensions.qiskit import AerStateBackend
+from pytket.passes import BasePass
 
 from .pennylane_convert import (
     OPERATION_MAP,
@@ -42,16 +43,16 @@ class PytketDevice(QubitDevice):
     author = "KN"
 
     _operation_map = OPERATION_MAP
-    operations = set(_operation_map.keys())
-    observables = {"PauliX", "PauliY", "PauliZ", "Identity", "Hadamard", "Prod"}
+    operations = set(_operation_map.keys())  # noqa: RUF012
+    observables = {"PauliX", "PauliY", "PauliZ", "Identity", "Hadamard", "Prod"}  # noqa: RUF012
 
     def __init__(
         self,
         wires: int,
-        shots: Optional[int] = None,
-        pytket_backend: Backend = AerStateBackend(),
-        optimisation_level: Optional[int] = None,
-        compilation_pass: Optional[BasePass] = None,
+        shots: int | None = None,
+        pytket_backend: Backend = AerStateBackend(),  # noqa: B008
+        optimisation_level: int | None = None,
+        compilation_pass: BasePass | None = None,
     ):
         """Construct a device that use a Pytket Backend and compilation to
         execute circuits.
@@ -87,8 +88,8 @@ class PytketDevice(QubitDevice):
             self.compilation_pass = compilation_pass
         super().__init__(wires=wires, shots=shots)
 
-    def capabilities(self) -> Dict[str, Any]:
-        cap_dic: Dict[str, Any] = super().capabilities().copy()
+    def capabilities(self) -> dict[str, Any]:
+        cap_dic: dict[str, Any] = super().capabilities().copy()
         cap_dic.update(
             {
                 "supports_finite_shots": self.pytket_backend.supports_shots,
@@ -104,13 +105,13 @@ class PytketDevice(QubitDevice):
         self._circuit = Circuit(name="temp")
         self._reg = self._circuit.add_q_register("q", self.num_wires)
         self._creg = self._circuit.add_c_register("c", self.num_wires)
-        self._backres: Optional[BackendResult] = None
-        self._state: Optional[np.ndarray] = None  # statevector of a simulator backend
-        self._samples: Optional[np.ndarray] = None
+        self._backres: BackendResult | None = None
+        self._state: np.ndarray | None = None  # statevector of a simulator backend
+        self._samples: np.ndarray | None = None
         super().reset()
 
     def apply(
-        self, operations: List[Operation], rotations: Optional[List[Operation]] = None
+        self, operations: list[Operation], rotations: list[Operation] | None = None
     ) -> None:
         self._circuit = pennylane_to_tk(
             operations if rotations is None else operations + rotations,
@@ -139,10 +140,10 @@ class PytketDevice(QubitDevice):
         self._backres = self.pytket_backend.get_result(handle)
 
     def analytic_probability(
-        self, wires: Optional[Union[int, Iterable[int]]] = None
+        self, wires: int | Iterable[int] | None = None
     ) -> np.ndarray:
         prob = self.marginal_prob(np.abs(self.state) ** 2, wires)
-        return cast(np.ndarray, prob)
+        return cast("np.ndarray", prob)
 
     def generate_samples(self) -> np.ndarray:
         if self.pytket_backend.supports_shots:
@@ -152,8 +153,7 @@ class PytketDevice(QubitDevice):
                 self._backres.get_shots(self._creg.to_list()), dtype=int
             )
             return self._samples
-        else:
-            return cast(np.ndarray, super().generate_samples())
+        return cast("np.ndarray", super().generate_samples())
 
     @property
     def state(self) -> np.ndarray:
