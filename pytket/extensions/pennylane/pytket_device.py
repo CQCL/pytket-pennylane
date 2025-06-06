@@ -58,19 +58,14 @@ class PytketDevice(QubitDevice):
         execute circuits.
 
         :param wires: Number of wires
-        :type wires: int
         :param shots: Number of shots to use (only relevant for sampling backends),
             defaults to None
-        :type shots: Optional[int], optional
         :param pytket_backend: Pytket Backend class to use, defaults to
             AerStateBackend() to facilitate automated pennylane testing of this backend
-        :type pytket_backend: Backend, optional
         :param optimisation_level: Backend default compilation optimisation level,
             ignored if `compilation_pass` is set, defaults to None
-        :type optimisation_level: int, optional
         :param compilation_pass: Pytket compiler pass with which to compile circuits,
             defaults to None
-        :type compilation_pass: Optional[BasePass], optional
         :raises ValueError: If the Backend does not support shots or state results
         """
 
@@ -89,6 +84,7 @@ class PytketDevice(QubitDevice):
         super().__init__(wires=wires, shots=shots)
 
     def capabilities(self) -> dict[str, Any]:
+        """See :py:meth:`pennylane.devices._qubit_device.QubitDevice.capabilities`"""
         cap_dic: dict[str, Any] = super().capabilities().copy()
         cap_dic.update(
             {
@@ -113,6 +109,7 @@ class PytketDevice(QubitDevice):
     def apply(
         self, operations: list[Operation], rotations: list[Operation] | None = None
     ) -> None:
+        """See :py:meth:`pennylane.devices._qubit_device.QubitDevice.apply`"""
         self._circuit = pennylane_to_tk(
             operations if rotations is None else operations + rotations,
             self._wire_map,
@@ -142,10 +139,12 @@ class PytketDevice(QubitDevice):
     def analytic_probability(
         self, wires: int | Iterable[int] | None = None
     ) -> np.ndarray:
+        """See :py:meth:`pennylane.devices._qubit_device.QubitDevice.analytic_probability`"""
         prob = self.marginal_prob(np.abs(self.state) ** 2, wires)
         return cast("np.ndarray", prob)
 
     def generate_samples(self) -> np.ndarray:
+        """See :py:meth:`pennylane.devices._qubit_device.QubitDevice.generate_samples`"""
         if self.pytket_backend.supports_shots:
             if self._backres is None:
                 raise RuntimeError("Result does not exist.")
