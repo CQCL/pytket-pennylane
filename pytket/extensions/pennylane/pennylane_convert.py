@@ -58,8 +58,7 @@ def apply_operations(
         operations (List[pennylane.operation.Operation]): operations to be applied
 
     Returns:
-        list[Circuit]: a list of tket circuit objects that
-            specify the corresponding operations
+        A list of tket circuit objects that specify the corresponding operations
     """
     circuits = []
 

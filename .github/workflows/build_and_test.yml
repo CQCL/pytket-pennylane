@@ -27,7 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        submodules: true
+        submodules: recursive
     - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* +refs/heads/*:refs/remotes/origin/*
     - name: Set up Python 3.10
       uses: actions/setup-python@v5
@@ -75,7 +75,7 @@ jobs:
       run: |
         cd docs
         bash ./install.sh
-        for w in `find wheelhouse/ -type f -name "*.whl"` ; do poetry install $w ; done
+        poetry run pip install ../.
     - name: Build docs
       if:  (matrix.os == 'ubuntu-latest') && (github.event_name == 'pull_request')
       timeout-minutes: 20
