@@ -55,11 +55,10 @@ def apply_operations(
     This method serves as an auxiliary method to :meth:`~.PytketDevice.apply`.
 
     Args:
-        operations (List[pennylane.Operation]): operations to be applied
+        operations (List[pennylane.operation.Operation]): operations to be applied
 
     Returns:
-        list[Circuit]: a list of tket circuit objects that
-            specify the corresponding operations
+        A list of tket circuit objects that specify the corresponding operations
     """
     circuits = []
 
